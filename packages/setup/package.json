@@ -1,0 +1,26 @@
+{
+  "name": "@storybook-tiny/setup",
+  "version": "1.0.0-0",
+  "description": "",
+  "keywords": [
+    "storybook"
+  ],
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "./src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "shelljs": "^0.8.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0"
+  }
+}
