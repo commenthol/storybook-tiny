@@ -1,0 +1,44 @@
+{
+  "name": "@storybook-tiny/solid-js",
+  "version": "1.0.0-0",
+  "description": "",
+  "keywords": [
+    "storybook"
+  ],
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "./src/Storybook.jsx",
+  "bin": {
+    "storybook-tiny": "./bin/storybook-tiny.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "stories",
+    "vite.config.js"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@storybook-tiny/setup": "workspace:*"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "eslint": "^9.9.0",
+    "eslint-plugin-solid": "^0.14.1",
+    "globals": "^15.9.0",
+    "solid-js": "^1.8.21",
+    "vite": "^5.4.1",
+    "vite-plugin-solid": "^2.10.2"
+  },
+  "peerDependencies": {
+    "solid-js": "^1.8.21"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
