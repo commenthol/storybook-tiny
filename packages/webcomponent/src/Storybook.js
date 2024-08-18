@@ -67,7 +67,9 @@ class Storybook extends WcElement {
 
   _renderStory() {
     const locHash = getLocationHash()
-    if (this.state.title === locHash) { return }
+    if (this.state.title === locHash) {
+      return
+    }
 
     let renderStory = defaultStory
 
@@ -140,7 +142,8 @@ define('storybook-tiny-story', Story)
 
 class StoryError extends WcElement {
   static attributes = { message: '', stack: '' }
-  connectedCallback(){
+
+  render() {
     this.innerHTML = `
       <div class="${styles.error}">
         <h2>Error</h2>

@@ -1,6 +1,5 @@
 import '../src/Storybook'
 import {
-  storyText,
   storyButton,
   storyCounter,
   storyError
@@ -9,7 +8,6 @@ import {
 const storybook = document.createElement('storybook-tiny')
 storybook.stories = [
   '<small>Components</small>',
-  storyText,
   storyButton,
   storyCounter,
   storyError

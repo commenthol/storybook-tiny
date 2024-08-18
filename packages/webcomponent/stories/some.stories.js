@@ -1,27 +1,36 @@
-const Button = () => {
-  const $ = document.createElement('button')
-  $.textContent = 'Click me'
-  $.addEventListener('click', () => alert('Hi'))
-  return $
-}
-
-class Counter extends HTMLElement {
-  $ = {}
-  init = 0
-
-  static observedAttributes = ['init']
-
-  attributeChangedCallback(name, _oldValue, newValue) {
-    switch (name) {
-      case 'init':
-        this[name] = isNaN(Number(newValue)) ? 0 : Number(newValue)
-        break
+// define some custom elements
+window.customElements.define(
+  'x-button',
+  class extends HTMLElement {
+    connectedCallback() {
+      this.shadow = this.attachShadow({ mode: 'open' })
+      this.$ = document.createElement('button')
+      this.$.addEventListener('click', () => alert('Hi'))
+      this.shadow.appendChild(this.$)
+      this.$.textContent = this.childNodes?.[0]?.textContent || 'Click Me'
     }
   }
+)
 
-  connectedCallback() {
-    this.shadow = this.attachShadow({ mode: 'closed' })
-    this.shadow.innerHTML = `
+window.customElements.define(
+  'x-counter',
+  class extends HTMLElement {
+    $ = {}
+    init = 0
+
+    static observedAttributes = ['init']
+
+    attributeChangedCallback(name, _oldValue, newValue) {
+      switch (name) {
+        case 'init':
+          this[name] = isNaN(Number(newValue)) ? 0 : Number(newValue)
+          break
+      }
+    }
+
+    connectedCallback() {
+      this.shadow = this.attachShadow({ mode: 'closed' })
+      this.shadow.innerHTML = `
       <style>
         :host {
           font-size: 1.5em;
@@ -45,35 +54,32 @@ class Counter extends HTMLElement {
         <button>👎</button>
       </div>
     `
-    this.$.count = this.shadow.querySelector('.count')
-    this.$.heart = this.shadow.querySelector('.heart')
-    this.$.buttons = this.shadow.querySelectorAll('button')
-    this.$.buttons[0].addEventListener('click', () => {
-      this.init += 1
+      this.$.count = this.shadow.querySelector('.count')
+      this.$.heart = this.shadow.querySelector('.heart')
+      this.$.buttons = this.shadow.querySelectorAll('button')
+      this.$.buttons[0].addEventListener('click', () => {
+        this.init += 1
+        this.render()
+      })
+      this.$.buttons[1].addEventListener('click', () => {
+        this.init -= 1
+        this.render()
+      })
       this.render()
-    })
-    this.$.buttons[1].addEventListener('click', () => {
-      this.init -= 1
-      this.render()
-    })
-    this.render()
-  }
+    }
 
-  render() {
-    this.$.count.textContent = this.init
-    this.$.heart.textContent =
-      this.init === 0 ? '🤍' : this.init > 0 ? '❤️' : '💔'
+    render() {
+      this.$.count.textContent = this.init
+      this.$.heart.textContent =
+        this.init === 0 ? '🤍' : this.init > 0 ? '❤️' : '💔'
+    }
   }
-}
-window.customElements.define('x-counter', Counter)
+)
 
-export const storyText = {
-  title: 'Text',
-  component: '<p style="color: red;">Just Text</p>'
-}
+// define your stories
 export const storyButton = {
-  title: 'button',
-  component: Button
+  title: 'x-button',
+  component: '<x-button>My Text</x-button>'
 }
 export const storyCounter = {
   title: 'x-counter',
@@ -81,6 +87,7 @@ export const storyCounter = {
 }
 export const storyError = {
   title: 'Error',
-  component: () => { throw new Error('baam') }
+  component: () => {
+    throw new Error('baam')
+  }
 }
-

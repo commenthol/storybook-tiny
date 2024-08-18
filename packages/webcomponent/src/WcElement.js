@@ -44,8 +44,8 @@ export class WcElement extends HTMLElement {
 
   /**
    * set attribute and re-render
-   * @param {string} name 
-   * @param {any} value 
+   * @param {string} name
+   * @param {any} value
    */
   setAttribute(name, value) {
     this._attr[name] = value
@@ -53,8 +53,15 @@ export class WcElement extends HTMLElement {
   }
 
   /**
+   * component must implement render()!
+   */
+  connectedCallback() {
+    this.render()
+  }
+
+  /**
    * @param {string} name change attribute
-   * @param {any} _oldValue 
+   * @param {any} _oldValue
    * @param {any} newValue new value
    */
   attributeChangedCallback(name, _oldValue, newValue) {
@@ -64,9 +71,9 @@ export class WcElement extends HTMLElement {
 
   /**
    * helper function to remove event listeners when component gets disconnected
-   * @param {HTMLElement} node 
-   * @param {string} event 
-   * @param {function} fn 
+   * @param {HTMLElement} node
+   * @param {string} event
+   * @param {function} fn
    */
   addEventListener(node, event, fn) {
     node.addEventListener(event, fn)

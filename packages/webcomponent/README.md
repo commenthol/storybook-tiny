@@ -24,8 +24,8 @@ import '@storybook-tiny/webcomponent'
 // define some custom elements
 window.customElements.define('x-text', class extends HTMLElement {
   connectedCallback() {
-    this.shadow = this.attachShadow({ mode: 'closed' })
-    this.shadow.innerHTML = `<h1>It works!</h1>`
+    this.attachShadow({ mode: 'closed' })
+    this.shadowRoot.innerHTML = `<h1>It works!</h1>`
   }
 })
 
