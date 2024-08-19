@@ -1,0 +1,47 @@
+{
+  "name": "@storybook-tiny/vue",
+  "version": "1.0.0-0",
+  "description": "",
+  "keywords": [
+    "storybook"
+  ],
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "./dist/storybook.umd.js",
+  "module": "./dist/storybook.js",
+  "bin": {
+    "storybook-tiny": "./bin/storybook-tiny.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "stories",
+    "vite.config.js"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@storybook-tiny/setup": "workspace:*"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@preact/preset-vite": "^2.9.0",
+    "@vitejs/plugin-vue": "^5.1.2",
+    "eslint": "^9.9.0",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-vue": "^9.27.0",
+    "globals": "^15.9.0",
+    "vite": "^5.3.5",
+    "vue": "^3.4.37"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.37"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
