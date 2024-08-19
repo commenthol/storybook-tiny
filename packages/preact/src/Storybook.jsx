@@ -61,14 +61,8 @@ export default function Storybook(props) {
   return (
     <main className={styles.storybook}>
       <aside style={{ flexBasis: width }}>
-        <h4
-          tabindex={0}
-          role="link"
-          onClick={() => {
-            location.href = href
-          }}
-        >
-          {header}
+        <h4>
+          <a href={href}>{header}</a>
         </h4>
         {stories.map((component, index) => (
           <Story
@@ -83,7 +77,11 @@ export default function Storybook(props) {
         ))}
       </aside>
       <section className="stories">
-        {error ? <StoryError error={error} resetError={resetError} /> : SbComponent}
+        {error ? (
+          <StoryError error={error} resetError={resetError} />
+        ) : (
+          SbComponent
+        )}
       </section>
     </main>
   )

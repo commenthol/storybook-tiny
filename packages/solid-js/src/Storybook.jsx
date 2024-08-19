@@ -38,14 +38,8 @@ export default function Storybook(props) {
   return (
     <main class={styles.storybook}>
       <aside style={{ 'flex-basis': cssUnit(width()) }}>
-        <h4
-          tabindex={0}
-          role="link"
-          onClick={() => {
-            location.href = href()
-          }}
-        >
-          {header()}
+        <h4>
+          <a href={href()}>{header()}</a>
         </h4>
         <For each={stories()}>
           {(component, index) => (

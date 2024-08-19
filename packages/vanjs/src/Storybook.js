@@ -15,7 +15,7 @@ const { a, aside, div, h4, main, p, section } = van.tags
  * @param {string} [props.header='Storybook'] title
  * @param {string} [props.href='/'] header link
  * @param {number} [props.width=130] aside width
-  * @returns {HTMLElement}
+ * @returns {HTMLElement}
  */
 export default function Storybook(props) {
   const {
@@ -54,18 +54,8 @@ export default function Storybook(props) {
     { className: styles.storybook },
     van.derive(() =>
       aside(
-        {
-          tabindex: 0,
-          style: `flex-basis:${cssUnit(width)}`
-        },
-        h4(
-          {
-            onclick: () => {
-              location.href = href
-            }
-          },
-          header
-        ),
+        { style: `flex-basis:${cssUnit(width)}` },
+        h4(a({ href }, header)),
         stories.map((component, index) =>
           Story({
             component,

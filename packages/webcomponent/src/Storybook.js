@@ -6,7 +6,7 @@ const getLocationHash = () => decodeURIComponent(location.hash.substring(1))
 const template = `
 <main class="${styles.storybook}">
   <aside>
-    <h4 tabindex="0" role="link"></h4>
+    <h4><a></a></h4>
     <div></div>
   </aside>
   <section class="stories">
@@ -42,10 +42,7 @@ class Storybook extends WcElement {
     this.innerHTML = template
     const { $ } = this
     $.aside = this.querySelector('main > aside')
-    $.h4 = $.aside.querySelector('h4')
-    this.addEventListener($.h4, 'click', () => {
-      location.href = this.href
-    })
+    $.h4 = $.aside.querySelector('h4 a')
     $.titles = $.aside.querySelector('div')
     $.story = this.querySelector('section')
     this.addEventListener(window, 'hashchange', () => this._renderStory())
@@ -55,6 +52,7 @@ class Storybook extends WcElement {
   render() {
     const { $ } = this
     $.h4.textContent = this.header
+    $.h4.href = this.href
     $.aside.style.flexBasis = cssUnit(this.width)
     $.titles.innerHTML = ''
     for (const story of this.stories) {
