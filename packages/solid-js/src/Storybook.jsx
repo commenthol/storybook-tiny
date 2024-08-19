@@ -1,4 +1,4 @@
-import { For, createSignal, createEffect, Show } from 'solid-js'
+import { For, createSignal, onCleanup, Show, Switch, Match } from 'solid-js'
 import styles from './Storybook.module.css'
 
 /**
@@ -6,6 +6,8 @@ import styles from './Storybook.module.css'
  * @property {string} title
  * @property {() => JSX.Element} component
  */
+
+const getLocationHash = () => decodeURIComponent(location.hash.substring(1))
 
 /**
  * Tiny Storybook for solid-js
@@ -22,17 +24,13 @@ export default function Storybook(props) {
   const href = () => props.href || '/stories/index.html'
   const width = () => props.width ?? 130
 
-  const [active, setActive] = createSignal('')
-
-  const handleClick = (title) => {
-    setActive(title)
-  }
-
-  createEffect(() => {
-    const locHash = location.hash.substring(1)
-    if (active() === '' && locHash) {
-      handleClick(locHash)
-    }
+  const [active, setActive] = createSignal(getLocationHash())
+  
+  // define hash router
+  const handleHashchange = () => setActive(getLocationHash())
+  window.addEventListener('hashchange', handleHashchange)
+  onCleanup(() => {
+    window.removeEventListener('hashchange', handleHashchange)
   })
 
   return (
@@ -42,38 +40,41 @@ export default function Storybook(props) {
           <a href={href()}>{header()}</a>
         </h4>
         <For each={stories()}>
-          {(component, index) => (
-            <Story
-              component={component}
-              index={index}
-              active={active}
-              handleClick={handleClick}
-            />
+          {(component) => (
+            <Story component={component} active={active} />
           )}
         </For>
       </aside>
       <section>
-        <Show when={active() === ''}>
-          <p class={styles.storybookSectionP}>
-            The tiny storybook for{' '}
-            <a
-              href="https://docs.solidjs.com/"
-              target="_blank"
-              rel="norel noreferrer"
-            >
-              solid-js
-            </a>
-          </p>
-        </Show>
-        <For each={stories()}>
-          {(component) => (
-            <Show when={active() === component?.title}>
-              {component.component}
-            </Show>
-          )}
-        </For>
+        <Switch fallback={<DefaultStory />}>
+          <Match when={active() === ''}>
+            <DefaultStory />
+          </Match>
+          <For each={stories()}>
+            {(component) => (
+              <Match when={active() === component?.title}>
+                {component.component}
+              </Match>
+            )}
+          </For>
+        </Switch>
       </section>
     </main>
+  )
+}
+
+function DefaultStory() {
+  return (
+    <p class={styles.storybookSectionP}>
+      The tiny storybook for{' '}
+      <a
+        href="https://docs.solidjs.com/"
+        target="_blank"
+        rel="norel noreferrer"
+      >
+        solid-js
+      </a>
+    </p>
   )
 }
 
@@ -86,10 +87,7 @@ function Story(props) {
       <div>
         <a
           href={`#${title}`}
-          tabIndex={0}
-          role="button"
           class={props.active() === title ? styles.active : ''}
-          onClick={() => props.handleClick(title)}
         >
           {title}
         </a>
@@ -98,12 +96,7 @@ function Story(props) {
   )
 }
 
-const toNumber = (n) => {
-  const _n = Number(n)
-  return !isNaN(_n) ? _n : undefined
-}
-
 const cssUnit = (unit) => {
-  const n = toNumber(unit)
-  return typeof n === 'number' ? `${n}px` : unit
+  const n = Number(unit)
+  return !isNaN(n) ? `${n}px` : unit
 }

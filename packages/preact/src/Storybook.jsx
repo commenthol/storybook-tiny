@@ -1,13 +1,15 @@
 /* eslint-disable react/no-unknown-property */
 import styles from './Storybook.module.css'
 import { h, isValidElement } from 'preact'
-import { useState, useErrorBoundary } from 'preact/hooks'
+import { useState, useErrorBoundary, useEffect } from 'preact/hooks'
 
 /**
  * @typedef {object} Story
  * @property {string} title
  * @property {() => JSX.Element} component
  */
+
+const getLocationHash = () => decodeURIComponent(location.hash.substring(1))
 
 /**
  * Tiny Storybook for preact
@@ -20,38 +22,42 @@ import { useState, useErrorBoundary } from 'preact/hooks'
  */
 export default function Storybook(props) {
   const {
-    stories,
     header = 'Storybook Tiny',
     href = '/stories/index.html',
-    width = 130
+    width = 130,
+    stories = []
   } = props
 
+  const [active, setActive] = useState(getLocationHash())
   const [error, resetError] = useErrorBoundary()
 
-  const [SbComponent, setSbComponent] = useState(
-    <p className={styles.storybookSectionP}>
-      The tiny storybook for{' '}
-      <a
-        href="https://preactjs.com/tutorial/"
-        target="_blanc"
-        rel="norel noreferrer"
-      >
-        preact
-      </a>
-    </p>
-  )
+  // define hash router
+  useEffect(() => {
+    const handleHashchange = () => {
+      setActive(getLocationHash())
+      resetError()
+    }
 
-  const [active, setActive] = useState()
-  const locHash = decodeURIComponent(location.hash.substring(1))
+    window.addEventListener('hashchange', handleHashchange)
+    return () => {
+      window.removeEventListener('hashchange', handleHashchange)
+    }
+  }, [])
 
-  const setActiveComponent = (component, title) => {
-    setActive(title)
-    setSbComponent(h(component, {}))
+  // select story component
+  let SbComponent = DefaultStory
+  for (const story of stories) {
+    if (story?.component) {
+      const title = story.title ?? story.component?.constructor?.name
+      if (title === active) {
+        SbComponent = story.component
+        break
+      }
+    }
   }
 
-  const handleClick = (component, title) => (_ev) => {
+  const handleClick = () => {
     resetError()
-    setActiveComponent(component, title)
   }
 
   if (error) {
@@ -67,12 +73,9 @@ export default function Storybook(props) {
         {stories.map((component, index) => (
           <Story
             key={index}
-            component={component}
-            index={index}
-            locHash={locHash}
-            handleClick={handleClick}
             active={active}
-            setActiveComponent={setActiveComponent}
+            component={component}
+            handleClick={handleClick}
           />
         ))}
       </aside>
@@ -80,46 +83,46 @@ export default function Storybook(props) {
         {error ? (
           <StoryError error={error} resetError={resetError} />
         ) : (
-          SbComponent
+          <SbComponent />
         )}
       </section>
     </main>
   )
 }
 
+function DefaultStory() {
+  return (
+    <p className={styles.storybookSectionP}>
+      The tiny storybook for{' '}
+      <a
+        href="https://preactjs.com/tutorial/"
+        target="_blanc"
+        rel="norel noreferrer"
+      >
+        preact
+      </a>
+    </p>
+  )
+}
+
 function Story(props) {
-  const { component, index, handleClick, active, setActiveComponent, locHash } =
-    props
+  const { component, handleClick, active } = props
 
   let title
-  let _component
 
   if (isValidElement(component)) {
     return component
   } else if (component.title) {
     title = component.title
-    _component = component.component
   } else {
     return null
-  }
-
-  if (!active && ((!locHash && index === 0) || title === locHash)) {
-    window.requestAnimationFrame(() => {
-      setActiveComponent(_component, title)
-    })
   }
 
   const className = title === active ? styles.active : ''
 
   return (
     <div>
-      <a
-        href={`#${title}`}
-        tabIndex={0}
-        role="button"
-        className={className}
-        onClick={handleClick(_component, title)}
-      >
+      <a href={`#${title}`} className={className} onClick={() => handleClick()}>
         {title}
       </a>
     </div>

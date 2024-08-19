@@ -1,12 +1,14 @@
 import styles from './Storybook.module.css'
-import { useState, createElement, isValidElement } from 'react'
-import { withErrorBoundary, useErrorBoundary } from 'react-use-error-boundary'
+import { useState, useEffect, isValidElement } from 'react'
+import { ErrorBoundary } from './ErrorBoundary'
 
 /**
  * @typedef {object} Story
  * @property {string} title
  * @property {() => JSX.Element} component
  */
+
+const getLocationHash = () => decodeURIComponent(location.hash.substring(1))
 
 /**
  * Tiny Storybook for react
@@ -17,41 +19,40 @@ import { withErrorBoundary, useErrorBoundary } from 'react-use-error-boundary'
  * @param {number} [props.width=130] aside width
  * @returns {Node}
  */
-function Storybook(props) {
+export default function Storybook(props) {
   const {
-    stories,
     header = 'Storybook Tiny',
     href = '/stories/index.html',
-    width = 130
+    width = 130,
+    stories = []
   } = props
-  const [error, resetError] = useErrorBoundary()
-  const [SbComponent, setSbComponent] = useState(
-    <p className={styles.storybookSectionP}>
-      The tiny storybook for{' '}
-      <a
-        href="https://reactjs.org/tutorial/tutorial.html"
-        target="_blanc"
-        rel="norel noreferrer"
-      >
-        react
-      </a>
-    </p>
-  )
-  const [active, setActive] = useState()
-  const locHash = decodeURIComponent(location.hash.substring(1))
 
-  const setActiveComponent = (component, title) => {
-    setActive(title)
-    setSbComponent(createElement(component))
-  }
+  const [active, setActive] = useState(getLocationHash())
+  const [error, resetError] = useState()
 
-  const handleClick = (component, title) => (_ev) => {
-    resetError()
-    setActiveComponent(component, title)
-  }
+  // define hash router
+  useEffect(() => {
+    const handleHashchange = () => {
+      setActive(getLocationHash())
+      resetError()
+    }
 
-  if (error) {
-    console.error(error)
+    window.addEventListener('hashchange', handleHashchange)
+    return () => {
+      window.removeEventListener('hashchange', handleHashchange)
+    }
+  }, [])
+
+  // select story component
+  let SbComponent = DefaultStory
+  for (const story of stories) {
+    if (story?.component) {
+      const title = story.title ?? story.component?.constructor?.name
+      if (title === active) {
+        SbComponent = story.component
+        break
+      }
+    }
   }
 
   return (
@@ -63,61 +64,57 @@ function Storybook(props) {
         {stories.map((component, index) => (
           <Story
             key={index}
-            component={component}
-            index={index}
-            locHash={locHash}
-            handleClick={handleClick}
             active={active}
-            setActiveComponent={setActiveComponent}
+            component={component}
           />
         ))}
       </aside>
       <section className="stories">
         {error ? (
-          <StoryError error={error} resetError={resetError} />
+          <StoryError error={error} resetError={() => resetError()} />
         ) : (
-          SbComponent
+          <ErrorBoundary setError={resetError}>
+            <SbComponent />
+          </ErrorBoundary>
         )}
       </section>
     </main>
   )
 }
 
-export default withErrorBoundary(Storybook)
+function DefaultStory() {
+  return (
+    <p className={styles.storybookSectionP}>
+      The tiny storybook for{' '}
+      <a
+        href="https://reactjs.org/tutorial/tutorial.html"
+        target="_blanc"
+        rel="norel noreferrer"
+      >
+        react
+      </a>
+    </p>
+  )
+}
 
 function Story(props) {
-  const { component, index, handleClick, active, setActiveComponent, locHash } =
-    props
+  const { component, active } = props
 
   let title
-  let _component
 
   if (isValidElement(component)) {
     return component
   } else if (component.title) {
     title = component.title
-    _component = component.component
   } else {
     return null
-  }
-
-  if (!active && ((!locHash && index === 0) || title === locHash)) {
-    window.requestAnimationFrame(() => {
-      setActiveComponent(_component, title)
-    })
   }
 
   const className = title === active ? styles.active : ''
 
   return (
     <div>
-      <a
-        href={`#${title}`}
-        tabIndex={0}
-        role="button"
-        className={className}
-        onClick={handleClick(_component, title)}
-      >
+      <a href={`#${title}`} className={className}>
         {title}
       </a>
     </div>
