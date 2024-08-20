@@ -46,7 +46,7 @@ ReactDOM.createRoot(document.getElementById('app')).render(
 Then run with vite:
 
 ```sh
-npx vite
+npx vite --open /stories/
 ```
 
 # license
