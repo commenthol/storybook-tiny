@@ -1,5 +1,5 @@
 node_modules
-packages/tmp
+tmp
 .DS_Store
 *.tgz
 *.log
