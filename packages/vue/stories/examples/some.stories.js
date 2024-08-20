@@ -1,6 +1,7 @@
 // -- you may want to delete this sample --
 
 import Counter from './Counter.vue'
+import Broken from './Broken.vue'
 
 const Button = {
   setup() {
@@ -17,4 +18,8 @@ export const storyButton = {
 
 export const storyCounter = {
   component: Counter
+}
+
+export const storyBroken = {
+  component: Broken
 }
