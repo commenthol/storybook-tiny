@@ -10,6 +10,7 @@
   "license": "MIT",
   "author": "commenthol <commenthol@gmail.com>",
   "scripts": {
+    "lint": "pnpm -r run lint",
     "f": "pnpm --filter \"./packages/*\" -r",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
