@@ -1,12 +1,26 @@
 {
   "name": "@storybook-tiny/react",
   "version": "1.0.0-0",
-  "description": "",
+  "description": "A tiny storybook for react",
   "keywords": [
-    "storybook"
+    "storybook",
+    "storybook-tiny",
+    "react"
   ],
+  "homepage": "https://github.com/commenthol/storybook-tiny/tree/main/packages/react#readme",
+  "bugs": {
+    "url": "https://github.com/commenthol/storybook-tiny/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/commenthol/storybook-tiny.git",
+    "directory": "packages/react"
+  },
   "license": "MIT",
-  "author": "",
+  "author": "commenthol <commenthol@gmail.com>",
+  "maintainers": [
+    "commenthol <commenthol@gmail.com>"
+  ],
   "type": "module",
   "main": "./src/Storybook.jsx",
   "bin": {
@@ -34,12 +48,14 @@
     "globals": "^15.9.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "vite": "^5.3.5"
+    "vite": "^5.4.1"
   },
   "peerDependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-use-error-boundary": "^3.0.0"
+    "react-dom": "^18.3.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "publishConfig": {
     "access": "public"

@@ -1,12 +1,26 @@
 {
   "name": "@storybook-tiny/solid-js",
   "version": "1.0.0-0",
-  "description": "",
+  "description": "A tiny storybook for solid-js",
   "keywords": [
-    "storybook"
+    "storybook",
+    "storybook-tiny",
+    "solid-js"
   ],
+  "homepage": "https://github.com/commenthol/storybook-tiny/tree/main/packages/solid-js#readme",
+  "bugs": {
+    "url": "https://github.com/commenthol/storybook-tiny/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/commenthol/storybook-tiny.git",
+    "directory": "packages/solid-js"
+  },
   "license": "MIT",
-  "author": "",
+  "author": "commenthol <commenthol@gmail.com>",
+  "maintainers": [
+    "commenthol <commenthol@gmail.com>"
+  ],
   "type": "module",
   "main": "./src/Storybook.jsx",
   "bin": {
@@ -29,7 +43,7 @@
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "eslint": "^9.9.0",
-    "eslint-plugin-solid": "^0.14.1",
+    "eslint-plugin-solid": "^0.14.2",
     "globals": "^15.9.0",
     "solid-js": "^1.8.21",
     "vite": "^5.4.1",
@@ -37,6 +51,9 @@
   },
   "peerDependencies": {
     "solid-js": "^1.8.21"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "publishConfig": {
     "access": "public"

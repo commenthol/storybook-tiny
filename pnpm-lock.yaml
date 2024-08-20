@@ -114,22 +114,6 @@ importers:
         specifier: ^2.10.2
         version: 2.10.2(solid-js@1.8.21)(vite@5.4.1)
 
-  packages/tmp:
-    dependencies:
-      vue:
-        specifier: ^3.4.37
-        version: 3.4.38(typescript@5.5.4)
-    devDependencies:
-      '@storybook-tiny/vue':
-        specifier: workspace:*
-        version: link:../vue
-      '@vitejs/plugin-vue':
-        specifier: ^5.1.2
-        version: 5.1.2(vite@5.4.1)(vue@3.4.38(typescript@5.5.4))
-      vite:
-        specifier: ^5.4.1
-        version: 5.4.1
-
   packages/vanjs:
     dependencies:
       '@storybook-tiny/setup':

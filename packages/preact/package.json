@@ -1,12 +1,26 @@
 {
   "name": "@storybook-tiny/preact",
   "version": "1.0.0-0",
-  "description": "",
+  "description": "A tiny storybook for preact",
   "keywords": [
-    "storybook"
+    "storybook",
+    "storybook-tiny",
+    "preact"
   ],
+  "homepage": "https://github.com/commenthol/storybook-tiny/tree/main/packages/preact#readme",
+  "bugs": {
+    "url": "https://github.com/commenthol/storybook-tiny/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/commenthol/storybook-tiny.git",
+    "directory": "packages/preact"
+  },
   "license": "MIT",
-  "author": "",
+  "author": "commenthol <commenthol@gmail.com>",
+  "maintainers": [
+    "commenthol <commenthol@gmail.com>"
+  ],
   "type": "module",
   "main": "./src/Storybook.jsx",
   "bin": {
@@ -32,11 +46,14 @@
     "eslint": "^9.9.0",
     "eslint-plugin-react": "^7.35.0",
     "globals": "^15.9.0",
-    "preact": "^10.23.1",
-    "vite": "^5.3.5"
+    "preact": "^10.23.2",
+    "vite": "^5.4.1"
   },
   "peerDependencies": {
-    "preact": "^10.23.1"
+    "preact": "^10.23.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "publishConfig": {
     "access": "public"

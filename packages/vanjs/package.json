@@ -1,12 +1,26 @@
 {
-  "name": "@storybook-tiny/preact",
+  "name": "@storybook-tiny/vanjs",
   "version": "1.0.0-0",
-  "description": "",
+  "description": "A tiny storybook for vanjs",
   "keywords": [
-    "storybook"
+    "storybook",
+    "storybook-tiny",
+    "vanjs"
   ],
+  "homepage": "https://github.com/commenthol/storybook-tiny/tree/main/packages/vanjs#readme",
+  "bugs": {
+    "url": "https://github.com/commenthol/storybook-tiny/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/commenthol/storybook-tiny.git",
+    "directory": "packages/vanjs"
+  },
   "license": "MIT",
-  "author": "",
+  "author": "commenthol <commenthol@gmail.com>",
+  "maintainers": [
+    "commenthol <commenthol@gmail.com>"
+  ],
   "type": "module",
   "main": "./src/Storybook.js",
   "bin": {
@@ -30,11 +44,14 @@
     "@eslint/js": "^9.9.0",
     "eslint": "^9.9.0",
     "globals": "^15.9.0",
-    "vanjs-core": "^1.5.1",
+    "vanjs-core": "^1.5.2",
     "vite": "^5.4.1"
   },
   "peerDependencies": {
-    "vanjs-core": "^1.5.1"
+    "vanjs-core": "^1.5.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "publishConfig": {
     "access": "public"
