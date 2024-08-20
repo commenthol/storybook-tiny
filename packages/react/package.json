@@ -1,6 +1,6 @@
 {
   "name": "@storybook-tiny/react",
-  "version": "1.0.0-0",
+  "version": "1.0.0",
   "description": "A tiny storybook for react",
   "keywords": [
     "storybook",
