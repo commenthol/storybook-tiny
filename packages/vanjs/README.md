@@ -8,9 +8,10 @@ initial setup:
 
 ```sh
 # add to your project
-npm i @storybook-tiny/vanjs
+npm i vanjs-core 
+npm i -D @storybook-tiny/vanjs
 
-# install with npm
+# install storybook template with npm
 npx storybook-tiny
 # or with pnpm
 npx storybook-tiny -p pnpm

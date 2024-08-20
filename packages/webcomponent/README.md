@@ -8,9 +8,9 @@ initial setup:
 
 ```sh
 # add to your project
-npm i @storybook-tiny/webcomponent
+npm i -D @storybook-tiny/webcomponent
 
-# install with npm
+# install storybook template with npm
 npx storybook-tiny
 # or with pnpm
 npx storybook-tiny -p pnpm
@@ -24,8 +24,8 @@ import '@storybook-tiny/webcomponent'
 // define some custom elements
 window.customElements.define('x-text', class extends HTMLElement {
   connectedCallback() {
-    this.attachShadow({ mode: 'closed' })
-    this.shadowRoot.innerHTML = `<h1>It works!</h1>`
+    const shadow = this.attachShadow({ mode: 'closed' })
+    shadow.innerHTML = `<h1>It works!</h1>`
   }
 })
 

@@ -5,9 +5,10 @@ Monorepo for tiny storybooks.
 These storybooks are written using the framework where the components will be
 created in.
 
-The storybook provides a hash based router by story and an area to display the test/ story/ components only. 
+The storybook provides a hash based router by story and an area to display the
+test/ story/ components only. 
 
-No frills.
+Nothing fancy.
 
 Current supported (no-) frameworks:
 
@@ -15,4 +16,9 @@ Current supported (no-) frameworks:
 - react@18
 - solid-js@1
 - vanjs@1
+- vue@3
 - webcomponents
+
+# license 
+
+MIT licensed

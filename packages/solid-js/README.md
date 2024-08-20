@@ -8,9 +8,10 @@ initial setup:
 
 ```sh
 # add to your project
-npm i @storybook-tiny/solid-js
+npm i solid-js
+npm i -D @storybook-tiny/solid-js
 
-# install with npm
+# install storybook template with npm
 npx storybook-tiny
 # or with pnpm
 npx storybook-tiny -p pnpm
