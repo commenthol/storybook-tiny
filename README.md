@@ -12,13 +12,13 @@ Nothing fancy.
 
 Current supported (no-) frameworks:
 
-- preact@10
-- react@18
-- solid-js@1
-- svelte@4
-- vanjs@1
-- vue@3
-- webcomponents
+- [preact@10](./tree/main/packages/preact)
+- [react@18](./tree/main/packages/react)
+- [solid-js@1](./tree/main/packages/solid-js)
+- [svelte@4](./tree/main/packages/svelte)
+- [vanjs@1](./tree/main/packages/vanjs)
+- [vue@3](./tree/main/packages/vue)
+- [webcomponents](./tree/main/packages/webcomponent)
 
 # license
 
