@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url'
 const config = {
   rootDir: fileURLToPath(new URL('..', import.meta.url)),
   devDependencies: [
-    '@storybook-tiny/react@workspace:*',
+    '@storybook-tiny/react',
     'react-use-error-boundary',
     '@vitejs/plugin-react',
     'vite'

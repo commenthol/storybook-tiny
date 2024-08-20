@@ -8,6 +8,11 @@ export default [
   pluginJs.configs.recommended,
   pluginReact.configs.flat.recommended,
   {
+    settings: {
+      react: {
+        version: '18'
+      }
+    },
     rules: {
       'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       'react/prop-types': 'off',

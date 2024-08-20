@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url'
 const config = {
   rootDir: fileURLToPath(new URL('..', import.meta.url)),
   devDependencies: [
-    '@storybook-tiny/solid-js@workspace:*',
+    '@storybook-tiny/solid-js',
     'vite-plugin-solid',
     'vite'
   ],

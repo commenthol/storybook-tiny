@@ -12,10 +12,6 @@ const Counter = () => {
   )
 }
 
-const Throws = () => {
-  throw new Error('this component throws')
-}
-
 // components under test
 export const storyButton = {
   title: Button.name,

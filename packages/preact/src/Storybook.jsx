@@ -1,4 +1,4 @@
-/* eslint-disable react/no-unknown-property */
+ 
 import styles from './Storybook.module.css'
 import { h, isValidElement } from 'preact'
 import { useState, useErrorBoundary, useEffect } from 'preact/hooks'

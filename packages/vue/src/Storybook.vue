@@ -1,4 +1,5 @@
 <script setup>
+/* eslint-disable vue/no-v-html */
 import { ref, computed } from 'vue/dist/vue.esm-bundler.js'
 
 const getLocHash = () => decodeURIComponent(window.location.hash.slice(1))

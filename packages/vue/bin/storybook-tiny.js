@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url'
 const config = {
   rootDir: fileURLToPath(new URL('..', import.meta.url)),
   devDependencies: [
-    '@storybook-tiny/vue@workspace:*',
+    '@storybook-tiny/vue',
     '@vitejs/plugin-vue',
     'vite'
   ],
