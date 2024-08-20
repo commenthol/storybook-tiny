@@ -12,13 +12,13 @@ Nothing fancy.
 
 Current supported (no-) frameworks:
 
-- [preact@10](./tree/main/packages/preact)
-- [react@18](./tree/main/packages/react)
-- [solid-js@1](./tree/main/packages/solid-js)
-- [svelte@4](./tree/main/packages/svelte)
-- [vanjs@1](./tree/main/packages/vanjs)
-- [vue@3](./tree/main/packages/vue)
-- [webcomponents](./tree/main/packages/webcomponent)
+- [preact@10](https://github.com/commenthol/storybook-tiny/tree/main/packages/preact#readme)
+- [react@18](https://github.com/commenthol/storybook-tiny/tree/main/packages/react#readme)
+- [solid-js@1](https://github.com/commenthol/storybook-tiny/tree/main/packages/solid-js#readme)
+- [svelte@4](https://github.com/commenthol/storybook-tiny/tree/main/packages/svelte#readme)
+- [vanjs@1](https://github.com/commenthol/storybook-tiny/tree/main/packages/vanjs#readme)
+- [vue@3](https://github.com/commenthol/storybook-tiny/tree/main/packages/vue#readme)
+- [webcomponents](https://github.com/commenthol/storybook-tiny/tree/main/packages/webcomponent#readme)
 
 # license
 
