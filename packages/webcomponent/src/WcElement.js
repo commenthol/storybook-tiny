@@ -71,7 +71,7 @@ export class WcElement extends HTMLElement {
 
   /**
    * helper function to remove event listeners when component gets disconnected
-   * @param {HTMLElement} node
+   * @param {Window|Document|Node} node
    * @param {string} event
    * @param {function} fn
    */
@@ -122,16 +122,12 @@ const observedAttributes = (elem) => {
  * attributes
  * @param {string} name custom element tag
  * @param {HTMLElement} Element
+ * @param {object} [options]
  */
-export const define = (name, Element) => {
+export const define = (name, Element, options) => {
   Element.observedAttributes =
     Element.observedAttributes || Object.keys(Element.attributes || [])
-  window.customElements.define(name, Element)
-}
-
-const toNumber = (n) => {
-  const _n = Number(n)
-  return !isNaN(_n) ? _n : undefined
+  window.customElements.define(name, Element, options)
 }
 
 /**
@@ -140,6 +136,6 @@ const toNumber = (n) => {
  * @returns {string}
  */
 export const cssUnit = (unit) => {
-  const n = toNumber(unit)
-  return typeof n === 'number' ? `${n}px` : unit
+  const n = Number(unit)
+  return isNaN(n) ? unit : `${n}px`
 }

@@ -3,20 +3,9 @@ import { WcElement, define, cssUnit } from './WcElement'
 
 const getLocationHash = () => decodeURIComponent(location.hash.substring(1))
 
-const template = `
-<main class="${styles.storybook}">
-  <aside>
-    <h4><a></a></h4>
-    <div></div>
-  </aside>
-  <section class="stories">
-  </section>
-</main>
-`
-
 const defaultStory = `
 <p class="${styles.storybookSectionP}">
-  The tiny storybook for<span> </span>
+  The tiny storybook for
   <a
     href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components"
     target="_blanc"
@@ -39,12 +28,22 @@ class Storybook extends WcElement {
   }
 
   connectedCallback() {
-    this.innerHTML = template
-    const { $ } = this
-    $.aside = this.querySelector('main > aside')
-    $.h4 = $.aside.querySelector('h4 a')
-    $.titles = $.aside.querySelector('div')
-    $.story = this.querySelector('section')
+    this.innerHTML = `
+      <main class="${styles.storybook}">
+        <aside>
+          <h4><a></a></h4>
+          <nav></nav>
+        </aside>
+        <section class="stories">
+        </section>
+      </main>
+    `
+    this.$ = {
+      aside: this.querySelector('main > aside'),
+      h4: this.querySelector('main > aside h4 a'),
+      nav: this.querySelector('main > aside nav'),
+      story: this.querySelector('main > section')
+    }
     this.addEventListener(window, 'hashchange', () => this._renderStory())
     this.render()
   }
@@ -54,23 +53,31 @@ class Storybook extends WcElement {
     $.h4.textContent = this.header
     $.h4.href = this.href
     $.aside.style.flexBasis = cssUnit(this.width)
-    $.titles.innerHTML = ''
+    $.nav.innerHTML = ''
     for (const story of this.stories) {
       const $el = document.createElement('storybook-tiny-story')
       $el.story = story
-      $.titles.appendChild($el)
+      $.nav.appendChild($el)
     }
     this._renderStory()
   }
 
   _renderStory() {
+    const { $ } = this
     const locHash = getLocationHash()
+
     if (this.state.title === locHash) {
       return
     }
 
+    // update active state on nav
+    for (const $el of $.nav.childNodes) {
+      $el.active = $el.story?.title === locHash
+    }
+
     let renderStory = defaultStory
 
+    // find active story
     for (const story of this.stories) {
       if (typeof story === 'object') {
         const { title, component } = story
@@ -81,7 +88,7 @@ class Storybook extends WcElement {
       }
     }
 
-    const { $ } = this
+    // try rendering the story
     $.story.innerHTML = ''
     try {
       switch (typeof renderStory) {
@@ -109,30 +116,33 @@ class Storybook extends WcElement {
 define('storybook-tiny', Storybook)
 
 class Story extends WcElement {
+  $ = {}
+
+  static attributes = {
+    active: false,
+    story: ''
+  }
+
   connectedCallback() {
     if (typeof this.story === 'string') {
       this.innerHTML = this.story
       return
     }
 
-    this.addEventListener(window, 'hashchange', () => this.render())
     const { title } = this.story
+
     this.innerHTML = `
       <div>
         <a 
           href="#${title}" 
-          tabindex="0"
-          role="button"
         >${title}</a>
       </div>
     `
-    this.render()
+    this.$ = { a: this.querySelector('a') }
   }
 
   render() {
-    const { title } = this.story
-    const locHash = getLocationHash()
-    this.querySelector('a').className = locHash === title ? styles.active : ''
+    this.$.a.className = this.active ? styles.active : ''
   }
 }
 
