@@ -1,21 +1,24 @@
 import sh from 'shelljs'
 import * as path from 'path'
 
-const { exec, cp, test, mkdir } = sh
+const { exec, cp, cat, test, mkdir, which, pwd } = sh
+
+const PCK_MANAGERS = ['pnpm', 'yarn', 'bun', 'cnpm', 'npm']
 
 const help = `
   Usage:
     storybook-tiny [options] [args]
 
   Options:
-    -h, --help                this help
-    -f, --force               force overwrite
-    -p, --pckman <pnpm|yarn>  select packagemanager other than npm
+    -h, --help        this help
+    -f, --force       force overwrite
+    -p, --pckman <${PCK_MANAGERS.join('|')}>
+                      select package-manager
 `
 
 const cli = (args) => {
   const argv = args || process.argv.slice(2)
-  const c = { pckman: 'npm' }
+  const c = { pckman: detectPckManager() }
 
   while (argv.length) {
     const arg = argv.shift()
@@ -32,7 +35,7 @@ const cli = (args) => {
       case '-p':
       case '--pckman': {
         const pckMan = argv.shift()
-        if (['npm', 'pnpm', 'yarn'].includes(pckMan)) {
+        if (PCK_MANAGERS.includes(pckMan)) {
           c.pckman = pckMan
         } else {
           console.error(`unsupported package manager "${pckMan}"`)
@@ -47,11 +50,64 @@ const cli = (args) => {
   return c
 }
 
+const packageJson = () => {
+  const data = cat('./package.json')
+  if (!data) {
+    return {}
+  }
+  return JSON.parse(data)
+}
+
+const detectPckManager = () => {
+  sh.config.silent = true
+  const { packageManager = '' } = packageJson()
+  
+  let pckMan
+  for (pckMan of PCK_MANAGERS) {
+    // check corePack package.json.packageManager
+    if (packageManager.startsWith(pckMan)) {
+      break
+    }
+    // check features
+    if (pckMan === 'pnpm') {
+      if (test('-f', `./pnpm-lock.yaml`)) {
+        break
+      }
+      const cwds = pwd().split('/')
+      let found
+      while (cwds.length) {
+        cwds.pop()
+        const current = cwds.join('/')
+        if (test('-f', `${current}/pnpm-workspace.yaml`)) {
+          found = true
+          break
+        }
+      }
+      if (found) {
+        break
+      }
+    }
+    if (pckMan === 'yarn') {
+      if (test('-f', './yarn.lock')) {
+        break
+      }
+    }
+    // check global install
+    if (which(pckMan)) {
+      break
+    }
+  }
+  sh.config.silent = false
+  return pckMan
+}
+
 const devDeps = (pckMan, devDependencies) => {
   const packages = devDependencies.join(' ')
   const cmd =
     pckMan === 'yarn'
       ? `yarn add --dev ${packages}`
+      : pckMan === 'bun'
+      ? `bun add -d ${packages}`
       : `${pckMan} install --save-dev ${packages}`
   exec(cmd)
 }
