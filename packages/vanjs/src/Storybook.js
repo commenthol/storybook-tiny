@@ -10,6 +10,23 @@ const { a, aside, div, h4, main, p, section } = van.tags
 
 const getLocationHash = () => decodeURIComponent(location.hash.substring(1))
 
+customElements.define(
+  'vanjs-disposer',
+  class extends HTMLElement {
+    disposers = new Set()
+
+    disconnectedCallback() {
+      this.disposers.forEach((disposer) => disposer())
+    }
+    setAttribute(eventname, [node, listener]) {
+      node.addEventListener(eventname, listener)
+      this.disposers.add(() => {
+        node.removeEventListener(eventname, listener)
+      })
+    }
+  }
+)
+
 /**
  * Simple Storybook for vanjs
  * @param {object} props
@@ -32,8 +49,10 @@ export default function Storybook(props) {
   const handleHashchange = () => {
     active.val = getLocationHash()
   }
-  // leaks mem but there is no unmount hook yet
-  window.addEventListener('hashchange', handleHashchange)
+  // handles hash change events on windows to get removed if storybook component
+  // is disconnected from DOM
+  const vanjsRouter = van.tags['vanjs-disposer']()
+  vanjsRouter.setAttribute('hashchange', [window, handleHashchange])
 
   const SbComponent = van.derive(() => {
     for (const story of stories) {
@@ -47,22 +66,25 @@ export default function Storybook(props) {
     return DefaultStory
   })
 
-  return main(
-    { className: styles.storybook },
-    van.derive(() =>
-      aside(
-        { style: `flex-basis:${cssUnit(width)}` },
-        h4(a({ href }, header)),
-        stories.map((component) =>
-          Story({
-            component,
-            active
-          })
+  return [
+    vanjsRouter,
+    main(
+      { className: styles.storybook },
+      van.derive(() =>
+        aside(
+          { style: `flex-basis:${cssUnit(width)}` },
+          h4(a({ href }, header)),
+          stories.map((component) =>
+            Story({
+              component,
+              active
+            })
+          )
         )
-      )
-    ),
-    van.derive(() => section({ className: 'stories' }, SbComponent.val))
-  )
+      ),
+      van.derive(() => section({ className: 'stories' }, SbComponent.val))
+    )
+  ]
 }
 
 const DefaultStory = () =>
