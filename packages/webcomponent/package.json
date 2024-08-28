@@ -1,6 +1,6 @@
 {
   "name": "@storybook-tiny/webcomponent",
-  "version": "1.1.1-0",
+  "version": "1.1.1",
   "description": "A tiny storybook for webcompoments",
   "keywords": [
     "storybook",
