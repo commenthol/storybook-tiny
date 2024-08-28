@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url'
 
 const config = {
   rootDir: fileURLToPath(new URL('..', import.meta.url)),
-  devDependencies: ['@storybook-tiny/webcomponent', 'vite'],
+  devDependencies: ['@storybook-tiny/webcomponent', 'mi-element', 'vite'],
   files: ['stories/*', 'vite.config.js'],
   post: [
     {

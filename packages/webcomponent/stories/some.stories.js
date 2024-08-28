@@ -17,7 +17,6 @@ window.customElements.define(
 window.customElements.define(
   'x-counter',
   class extends HTMLElement {
-    $ = {}
     init = 0
 
     static observedAttributes = ['init']
@@ -56,7 +55,7 @@ window.customElements.define(
         <button id="down">👎</button>
       </div>
       `
-      this.refs = refsBySelector({
+      this.refs = refsBySelector(this.renderRoot, {
         count: '.count',
         heart: '.heart',
         up: '#up',
