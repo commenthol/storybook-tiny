@@ -1,7 +1,17 @@
 import styles from './Storybook.module.css'
-import { WcElement, define, cssUnit } from './WcElement'
+import { MiElement, define, refsBySelector, esc, refsById } from 'mi-element'
 
 const getLocationHash = () => decodeURIComponent(location.hash.substring(1))
+
+/**
+ * convert number to css unit
+ * @param {numbers|string} unit 
+ * @returns {string}
+ */
+const cssUnit = (unit) => {
+  const n = Number(unit)
+  return isNaN(n) ? unit : `${n}px`
+}
 
 const defaultStory = `
 <p class="${styles.storybookSectionP}">
@@ -16,54 +26,57 @@ const defaultStory = `
 </p>
 `
 
-class Storybook extends WcElement {
-  $ = {}
+class Storybook extends MiElement {
   state = {}
 
-  static attributes = {
-    header: 'Storybook Tiny',
-    href: '/stories/index.html',
-    width: 130,
-    stories: []
+  static shadowRootOptions = null
+
+  static get attributes() {
+    return {
+      header: 'Storybook Tiny',
+      href: '/stories/index.html',
+      width: 130,
+      stories: []
+    }
   }
 
-  connectedCallback() {
-    this.innerHTML = `
-      <main class="${styles.storybook}">
-        <aside>
-          <h4><a></a></h4>
-          <nav></nav>
-        </aside>
-        <section class="stories">
-        </section>
-      </main>
-    `
-    this.$ = {
-      aside: this.querySelector('main > aside'),
-      h4: this.querySelector('main > aside h4 a'),
-      nav: this.querySelector('main > aside nav'),
-      story: this.querySelector('main > section')
-    }
-    this.addEventListener(window, 'hashchange', () => this._renderStory())
-    this.render()
-  }
+  static template = `
+  <main class="${styles.storybook}">
+    <aside>
+      <h4><a></a></h4>
+      <nav></nav>
+    </aside>
+    <section class="stories">
+    </section>
+  </main>
+  `
 
   render() {
-    const { $ } = this
-    $.h4.textContent = this.header
-    $.h4.href = this.href
-    $.aside.style.flexBasis = cssUnit(this.width)
-    $.nav.innerHTML = ''
+    this.refs = refsBySelector(this.renderRoot, {
+      aside: 'main > aside',
+      h4: 'main > aside h4 a',
+      nav: 'main > aside nav',
+      story: 'main > section'
+    })
+    this.on('hashchange', () => this._updateStory(), window)
+  }
+
+  update() {
+    const { refs } = this
+    refs.h4.textContent = this.header
+    refs.h4.href = this.href
+    refs.aside.style.flexBasis = cssUnit(this.width)
+    refs.nav.innerHTML = ''
     for (const story of this.stories) {
       const $el = document.createElement('storybook-tiny-story')
       $el.story = story
-      $.nav.appendChild($el)
+      refs.nav.appendChild($el)
     }
-    this._renderStory()
+    this._updateStory()
   }
 
-  _renderStory() {
-    const { $ } = this
+  _updateStory() {
+    const { refs } = this
     const locHash = getLocationHash()
 
     if (this.state.title === locHash) {
@@ -71,7 +84,7 @@ class Storybook extends WcElement {
     }
 
     // update active state on nav
-    for (const $el of $.nav.childNodes) {
+    for (const $el of refs.nav.childNodes) {
       $el.active = $el.story?.title === locHash
     }
 
@@ -89,14 +102,14 @@ class Storybook extends WcElement {
     }
 
     // try rendering the story
-    $.story.innerHTML = ''
+    refs.story.innerHTML = ''
     try {
       switch (typeof renderStory) {
         case 'string':
-          $.story.innerHTML = renderStory
+          refs.story.innerHTML = renderStory
           break
         case 'function':
-          $.story.appendChild(renderStory())
+          refs.story.appendChild(renderStory())
           break
         default:
           throw new Error(
@@ -108,58 +121,66 @@ class Storybook extends WcElement {
       const error = document.createElement('storybook-tiny-error')
       error.message = err.message
       error.stack = err.stack
-      $.story.appendChild(error)
+      refs.story.appendChild(error)
     }
   }
 }
 
 define('storybook-tiny', Storybook)
 
-class Story extends WcElement {
-  $ = {}
+class Story extends MiElement {
+  static shadowRootOptions = null
 
-  static attributes = {
-    active: false,
-    story: ''
+  static get attributes() {
+    return {
+      active: false,
+      story: ''
+    }
   }
 
-  connectedCallback() {
+  update() {
     if (typeof this.story === 'string') {
-      this.innerHTML = this.story
+      this.renderRoot.innerHTML = this.story
       return
     }
 
     const { title } = this.story
 
-    this.innerHTML = `
-      <div>
-        <a 
-          href="#${title}" 
-        >${title}</a>
-      </div>
+    this.renderRoot.innerHTML = esc`
+    <div>
+      <a href="#${title}">${title}</a>
+    </div>
     `
-    this.$ = { a: this.querySelector('a') }
-  }
-
-  render() {
-    this.$.a.className = this.active ? styles.active : ''
+    this.refs = { a: this.querySelector('a') }
+    this.refs.a.className = this.active ? styles.active : ''
   }
 }
 
 define('storybook-tiny-story', Story)
 
-class StoryError extends WcElement {
-  static attributes = { message: '', stack: '' }
+class StoryError extends MiElement {
+  static shadowRootOptions = null
+
+  static get attributes() {
+    return { message: '', stack: '' }
+  }
+
+  static template = `
+  <div class="${styles.error}">
+    <h2>Error</h2>
+    <p id="message"></p>
+    <p> </p>
+    <pre style="white-space: pre-wrap" id="stack"></pre>
+  </div>
+  `
 
   render() {
-    this.innerHTML = `
-      <div class="${styles.error}">
-        <h2>Error</h2>
-        <p>${this.message}</p>
-        <p> </p>
-        <pre style="white-space: pre-wrap">${this.stack}</pre>
-      </div>
-    `
+    this.refs = refsById(this.renderRoot)
+  }
+
+  update() {
+    this.refs.message.textContent = this.message
+    this.refs.stack.textContent = this.stack
   }
 }
 

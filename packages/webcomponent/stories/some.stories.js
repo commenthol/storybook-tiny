@@ -1,12 +1,14 @@
+import { refsBySelector } from "mi-element/refs"
+
 // define some custom elements
 window.customElements.define(
   'x-button',
   class extends HTMLElement {
     connectedCallback() {
-      this.shadow = this.attachShadow({ mode: 'open' })
+      this.renderRoot = this.attachShadow({ mode: 'open' })
       this.$ = document.createElement('button')
       this.$.addEventListener('click', () => alert('Hi'))
-      this.shadow.appendChild(this.$)
+      this.renderRoot.appendChild(this.$)
       this.$.textContent = this.childNodes?.[0]?.textContent || 'Click Me'
     }
   }
@@ -29,8 +31,8 @@ window.customElements.define(
     }
 
     connectedCallback() {
-      this.shadow = this.attachShadow({ mode: 'closed' })
-      this.shadow.innerHTML = `
+      this.renderRoot = this.attachShadow({ mode: 'closed' })
+      this.renderRoot.innerHTML = `
       <style>
         :host {
           font-size: 1.5em;
@@ -50,18 +52,21 @@ window.customElements.define(
       <div>
         <span class="count"></span>
         <span class="heart"></span>
-        <button>👍</button>
-        <button>👎</button>
+        <button id="up">👍</button>
+        <button id="down">👎</button>
       </div>
-    `
-      this.$.count = this.shadow.querySelector('.count')
-      this.$.heart = this.shadow.querySelector('.heart')
-      this.$.buttons = this.shadow.querySelectorAll('button')
-      this.$.buttons[0].addEventListener('click', () => {
+      `
+      this.refs = refsBySelector({
+        count: '.count',
+        heart: '.heart',
+        up: '#up',
+        down: '#down'
+      })
+      this.refs.up.addEventListener('click', () => {
         this.init += 1
         this.render()
       })
-      this.$.buttons[1].addEventListener('click', () => {
+      this.refs.down.addEventListener('click', () => {
         this.init -= 1
         this.render()
       })
@@ -69,8 +74,8 @@ window.customElements.define(
     }
 
     render() {
-      this.$.count.textContent = this.init
-      this.$.heart.textContent =
+      this.refs.count.textContent = this.init
+      this.refs.heart.textContent =
         this.init === 0 ? '🤍' : this.init > 0 ? '❤️' : '💔'
     }
   }
@@ -86,8 +91,8 @@ export const storyCounter = {
   component: () => document.createElement('x-counter')
 }
 export const storyError = {
-  title: 'Error',
+  title: 'Hello 🌍 Error',
   component: () => {
-    throw new Error('baam')
+    throw new Error('Hello 🌍 Error')
   }
 }

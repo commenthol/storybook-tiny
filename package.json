@@ -1,5 +1,5 @@
 {
-  "name": "storybook-tiny",
+  "name": "storybook-tiny-workspace",
   "version": "1.0.0",
   "private": true,
   "description": "Monorepo for tiny storybooks",
@@ -9,6 +9,7 @@
   },
   "license": "MIT",
   "author": "commenthol <commenthol@gmail.com>",
+  "type": "module",
   "scripts": {
     "lint": "pnpm -r run lint",
     "f": "pnpm --filter \"./packages/*\" -r",
