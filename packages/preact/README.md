@@ -11,7 +11,7 @@ initial setup:
 npm i preact
 npm i -D @storybook-tiny/preact
 
-# install storybook template with npm
+# install storybook template auto-detecting your package-manager
 npx storybook-tiny
 # or with pnpm
 npx storybook-tiny -p pnpm

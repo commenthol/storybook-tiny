@@ -1,6 +1,6 @@
 {
   "name": "@storybook-tiny/vue",
-  "version": "1.0.0",
+  "version": "1.0.1-0",
   "description": "A tiny storybook for vue",
   "keywords": [
     "storybook",

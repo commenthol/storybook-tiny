@@ -10,7 +10,7 @@ initial setup:
 # add to your project
 npm i -D @storybook-tiny/webcomponent
 
-# install storybook template with npm
+# install storybook template auto-detecting your package-manager
 npx storybook-tiny
 # or with pnpm
 npx storybook-tiny -p pnpm

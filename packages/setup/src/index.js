@@ -1,9 +1,12 @@
 import sh from 'shelljs'
 import * as path from 'path'
+import { fileURLToPath } from 'url'
+import {
+  detectPackageManager,
+  PACKAGE_MANAGERS
+} from './detect-package-manager.js'
 
-const { exec, cp, cat, test, mkdir, which, pwd } = sh
-
-const PCK_MANAGERS = ['pnpm', 'yarn', 'bun', 'cnpm', 'npm']
+const { exec, cat, cp, test, mkdir } = sh
 
 const help = `
   Usage:
@@ -11,14 +14,15 @@ const help = `
 
   Options:
     -h, --help        this help
+    -v, --version     displays version
     -f, --force       force overwrite
-    -p, --pckman <${PCK_MANAGERS.join('|')}>
+    -p, --pckman <${PACKAGE_MANAGERS.join('|')}>
                       select package-manager
 `
 
 const cli = (args) => {
   const argv = args || process.argv.slice(2)
-  const c = { pckman: detectPckManager() }
+  const c = { pckman: detectPackageManager() }
 
   while (argv.length) {
     const arg = argv.shift()
@@ -28,6 +32,10 @@ const cli = (args) => {
       case '--help':
         c.help = true
         break
+      case '-v':
+      case '--version':
+        c.version = true
+        break
       case '-f':
       case '--force':
         c.force = true
@@ -35,7 +43,7 @@ const cli = (args) => {
       case '-p':
       case '--pckman': {
         const pckMan = argv.shift()
-        if (PCK_MANAGERS.includes(pckMan)) {
+        if (PACKAGE_MANAGERS.includes(pckMan)) {
           c.pckman = pckMan
         } else {
           console.error(`unsupported package manager "${pckMan}"`)
@@ -50,65 +58,14 @@ const cli = (args) => {
   return c
 }
 
-const packageJson = () => {
-  const data = cat('./package.json')
-  if (!data) {
-    return {}
-  }
-  return JSON.parse(data)
-}
-
-const detectPckManager = () => {
-  sh.config.silent = true
-  const { packageManager = '' } = packageJson()
-  
-  let pckMan
-  for (pckMan of PCK_MANAGERS) {
-    // check corePack package.json.packageManager
-    if (packageManager.startsWith(pckMan)) {
-      break
-    }
-    // check features
-    if (pckMan === 'pnpm') {
-      if (test('-f', `./pnpm-lock.yaml`)) {
-        break
-      }
-      const cwds = pwd().split('/')
-      let found
-      while (cwds.length) {
-        cwds.pop()
-        const current = cwds.join('/')
-        if (test('-f', `${current}/pnpm-workspace.yaml`)) {
-          found = true
-          break
-        }
-      }
-      if (found) {
-        break
-      }
-    }
-    if (pckMan === 'yarn') {
-      if (test('-f', './yarn.lock')) {
-        break
-      }
-    }
-    // check global install
-    if (which(pckMan)) {
-      break
-    }
-  }
-  sh.config.silent = false
-  return pckMan
-}
-
 const devDeps = (pckMan, devDependencies) => {
   const packages = devDependencies.join(' ')
   const cmd =
     pckMan === 'yarn'
       ? `yarn add --dev ${packages}`
       : pckMan === 'bun'
-      ? `bun add -d ${packages}`
-      : `${pckMan} install --save-dev ${packages}`
+        ? `bun add -d ${packages}`
+        : `${pckMan} install --save-dev ${packages}`
   exec(cmd)
 }
 
@@ -143,6 +100,15 @@ const postProc = (commands = []) => {
   }
 }
 
+const packageJson = () => {
+  const filename = fileURLToPath(new URL('../package.json', import.meta.url))
+  const data = cat(filename)
+  if (!data || data.stderr) {
+    return {}
+  }
+  return JSON.parse(data)
+}
+
 /**
  * @param {{
  *  devDependencies: string[],
@@ -156,6 +122,11 @@ export const install = (config) => {
   const args = cli()
   if (args.help) {
     console.log(help)
+    return
+  }
+  if (args.version) {
+    const { version } = packageJson()
+    console.log(version)
     return
   }
   devDeps(args.pckman, devDependencies)
