@@ -18,7 +18,8 @@ customElements.define(
     disconnectedCallback() {
       this.disposers.forEach((disposer) => disposer())
     }
-    setAttribute(eventname, [node, listener]) {
+
+    on(node, eventname, listener) {
       node.addEventListener(eventname, listener)
       this.disposers.add(() => {
         node.removeEventListener(eventname, listener)
@@ -52,7 +53,7 @@ export default function Storybook(props) {
   // handles hash change events on windows to get removed if storybook component
   // is disconnected from DOM
   const vanjsRouter = van.tags['vanjs-disposer']()
-  vanjsRouter.setAttribute('hashchange', [window, handleHashchange])
+  vanjsRouter.on(window, 'hashchange', handleHashchange)
 
   const SbComponent = van.derive(() => {
     for (const story of stories) {
