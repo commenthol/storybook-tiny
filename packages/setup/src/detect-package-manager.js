@@ -1,3 +1,14 @@
+// SPDX-License-Identifier: Unlicense
+/**
+ * Detect used package manager in a project.
+ * Needs [shelljs](https://www.npmjs.com/package/shelljs) package.
+ * Should run in the directory where the projects package.json resides.
+ * 1. Checks first if packageManager is set in package.json by corepack
+ * 2. Then directories are traversed in search for lock files or workspace
+ *    settings
+ * 3. If nothing is found then a globally installed exec file is searched
+ */
+
 import sh from 'shelljs'
 import * as path from 'path'
 
@@ -19,7 +30,7 @@ const checkCorePack = (dirname = '.') => {
     return
   }
 
-  for (let pckMan of PACKAGE_MANAGERS) {
+  for (const pckMan of PACKAGE_MANAGERS) {
     // check corePack package.json.packageManager
     if (packageManager.startsWith(pckMan)) {
       return pckMan
@@ -28,7 +39,7 @@ const checkCorePack = (dirname = '.') => {
 }
 
 const checkFeatures = (dirname = '.') => {
-  for (let pckMan of PACKAGE_MANAGERS) {
+  for (const pckMan of PACKAGE_MANAGERS) {
     if (pckMan === 'pnpm') {
       if (test('-f', path.join(dirname, 'pnpm-lock.yaml'))) {
         return pckMan
@@ -44,6 +55,10 @@ const checkFeatures = (dirname = '.') => {
       }
     }
     if (['cnpm', 'npm'].includes(pckMan)) {
+      // npm alternative might not be installed...
+      if (!which(pckMan)) {
+        continue
+      }
       if (test('-f', path.join(dirname, 'package-lock.json'))) {
         return pckMan
       }
@@ -54,8 +69,8 @@ const checkFeatures = (dirname = '.') => {
 const checkDirTree = () => {
   const tree = process.cwd().split(path.sep)
   while (tree.length) {
-    let dirname = tree.join(path.sep)
-    let found = checkCorePack(dirname) || checkFeatures(dirname)
+    const dirname = tree.join(path.sep)
+    const found = checkCorePack(dirname) || checkFeatures(dirname)
     if (found) {
       return found
     }
@@ -64,7 +79,7 @@ const checkDirTree = () => {
 }
 
 const checkGlobalInstall = () => {
-  for (let pckMan of PACKAGE_MANAGERS) {
+  for (const pckMan of PACKAGE_MANAGERS) {
     // check global install
     if (which(pckMan)) {
       return pckMan
