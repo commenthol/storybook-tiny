@@ -1,6 +1,6 @@
 {
   "name": "@storybook-tiny/vanjs",
-  "version": "1.0.2-0",
+  "version": "1.0.2",
   "description": "A tiny storybook for vanjs",
   "keywords": [
     "storybook",
