@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@storybook-tiny/setup": "workspace:*",
-    "mi-element": "^0.1.0"
+    "mi-element": "^0.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
