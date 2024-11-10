@@ -1,7 +1,6 @@
 <script>
-  let count = 0
-
+  let count = $state(0)
   const handleClick = () => count++
 </script>
 
-<button on:click={handleClick}>{count} times clicked</button>
+<button onclick={handleClick}>{count} times clicked</button>

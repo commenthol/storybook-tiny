@@ -4,4 +4,4 @@ function throwError(){
 }
 </script>
 
-<button on:click={() => throwError()}>throw error</button>
+<button onclick={() => throwError()}>throw error</button>

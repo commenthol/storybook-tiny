@@ -1,13 +1,28 @@
+<svelte:options runes="{true}" />
+
 <script>
+  import { run } from 'svelte/legacy';
+
   import styles from './Storybook.module.css'
   import { onMount } from 'svelte'
   import Story from './Story.svelte'
   import DefaultStory from './DefaultStory.svelte'
 
-  export let stories = []
-  export let header = 'Storybook Tiny'
-  export let href = '/stories/index.html'
-  export let width = 130
+  /**
+   * @typedef {Object} Props
+   * @property {any} [stories]
+   * @property {string} [header]
+   * @property {string} [href]
+   * @property {number} [width]
+   */
+
+  /** @type {Props} */
+  let {
+    stories = [],
+    header = 'Storybook Tiny',
+    href = '/stories/index.html',
+    width = 130
+  } = $props();
 
   const cssUnit = (unit) => {
     const n = Number(unit)
@@ -17,7 +32,7 @@
   const getLocationHash = () =>
     decodeURIComponent(window.location.hash.slice(1))
 
-  $: locHash = getLocationHash()
+  let locHash = $state(getLocationHash())
 
   onMount(() => {
     // define hash router
@@ -30,9 +45,9 @@
     }
   })
 
-  let component = DefaultStory
+  let SvelteComponent = $state(DefaultStory)
 
-  $: titles = stories.reduce((acc, story, id) => {
+  let titles = $derived(stories.reduce((acc, story, id) => {
     switch (typeof story) {
       case 'object': {
         if (!story.component) {
@@ -44,7 +59,9 @@
         }
         const active = locHash === title
         if (active) {
-          component = story.component
+          window.requestAnimationFrame(() => {
+            SvelteComponent = story.component
+          })
         }
         acc.push({ id, title, active, href: `#${title}` })
         break
@@ -55,7 +72,7 @@
       }
     }
     return acc
-  }, [])
+  }, []))
 </script>
 
 <main class={styles.storybook}>
@@ -70,7 +87,7 @@
     {/each}
   </aside>
   <section class="stories">
-    <svelte:component this={component} />
+    <SvelteComponent />
   </section>
 </main>
 

@@ -1,6 +1,6 @@
 # @storybook-tiny/svelte
 
-A tiny storybook for [svelte][].
+A tiny storybook for [svelte 5][].
 
 # usage
 
@@ -46,4 +46,4 @@ npx vite --open /stories/
 
 MIT licensed
 
-[svelte]: https://sveltejs.com/tutorial/
+[svelte 5]: https://sveltejs.com/tutorial/

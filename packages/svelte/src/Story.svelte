@@ -1,8 +1,10 @@
 <script>
-  export let title = {}
+  let {
+    title = {}
+  } = $props();
 
-  let name = title?.title
-  $: className = title.active ? 'active' : ''
+  const name = title?.title
+  const className = $derived(title.active ? 'active' : '')
 </script>
 
 <div>

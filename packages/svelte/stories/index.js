@@ -1,6 +1,7 @@
+import { mount } from 'svelte'
 import Stories from './Stories.svelte'
 
-const app = new Stories({
+const app = mount(Stories, {
   target: document.getElementById('app')
 })
 
