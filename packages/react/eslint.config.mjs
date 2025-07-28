@@ -14,7 +14,14 @@ export default [
       }
     },
     rules: {
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': [
+        'error',
+        {
+          varsIgnorePattern: '^_$',
+          argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_err'
+        }
+      ],
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off'
     }

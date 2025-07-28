@@ -10,7 +10,14 @@ export default [
   {
     settings: {},
     rules: {
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': [
+        'error',
+        {
+          varsIgnorePattern: '^_$',
+          argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_err'
+        }
+      ],
       'svelte/no-at-html-tags': 'warn'
     }
   }

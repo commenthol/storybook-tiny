@@ -7,7 +7,14 @@ export default [
   ...pluginVue.configs['flat/recommended'],
   {
     rules: {
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': [
+        'error',
+        {
+          varsIgnorePattern: '^_$',
+          argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_err'
+        }
+      ],
       'vue/multi-word-component-names': 'off'
     }
   },
