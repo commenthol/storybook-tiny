@@ -1,17 +1,12 @@
 import styles from './Storybook.module.css'
+import split from 'split.js'
 import { MiElement, define, refsBySelector, esc, refsById } from 'mi-element'
 
 const getLocationHash = () => decodeURIComponent(location.hash.substring(1))
 
-/**
- * convert number to css unit
- * @param {numbers|string} unit 
- * @returns {string}
- */
-const cssUnit = (unit) => {
-  const n = Number(unit)
-  return isNaN(n) ? unit : `${n}px`
-}
+const STORE_ITEM = 'tiny-storybook-x'
+
+const getXperc = (px = 130) => (px * 100) / window.innerWidth
 
 const defaultStory = `
 <p class="${styles.storybookSectionP}">
@@ -41,17 +36,46 @@ class Storybook extends MiElement {
   }
 
   static template = `
+  <style>   
+  .${styles.storybook} > .gutter {
+      background-color: #eee;
+      background-repeat: no-repeat;
+      background-position: 50%;
+  }
+  .${styles.storybook} > .gutter.gutter-horizontal {
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+      cursor: col-resize;
+  }
+  </style>
   <main class="${styles.storybook}">
-    <aside>
+    <aside id="split-0">
       <h4><a></a></h4>
       <nav></nav>
     </aside>
-    <section class="stories">
+    <section id="split-1" class="stories">
     </section>
   </main>
   `
 
   render() {
+    let xperc = getXperc()
+    try {
+      xperc = JSON.parse(localStorage.getItem(STORE_ITEM)) || xperc
+      if (isNaN(xperc)) {
+        xperc = getXperc()
+      }
+    } catch (_err) {
+      // noop
+    }
+    split(['#split-0', '#split-1'], {
+      sizes: [xperc, 100 - xperc],
+      minSize: 0,
+      gutterSize: 5,
+      onDragEnd: (sizes) => {
+        const [xperc] = sizes
+        localStorage.setItem(STORE_ITEM, xperc)
+      }
+    })
     this.refs = refsBySelector(this.renderRoot, {
       aside: 'main > aside',
       h4: 'main > aside h4 a',
@@ -65,7 +89,6 @@ class Storybook extends MiElement {
     const { refs } = this
     refs.h4.textContent = this.header
     refs.h4.href = this.href
-    refs.aside.style.flexBasis = cssUnit(this.width)
     refs.nav.innerHTML = ''
     for (const story of this.stories) {
       const $el = document.createElement('storybook-tiny-story')
