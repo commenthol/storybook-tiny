@@ -1,6 +1,6 @@
 {
   "name": "@storybook-tiny/vue",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A tiny storybook for vue",
   "keywords": [
     "storybook",
@@ -41,15 +41,15 @@
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
-    "@vitejs/plugin-vue": "^5.1.4",
+    "@vitejs/plugin-vue": "^6.0.1",
     "eslint": "catalog:",
-    "eslint-plugin-vue": "^9.30.0",
+    "eslint-plugin-vue": "^10.4.0",
     "globals": "catalog:",
     "vite": "catalog:",
-    "vue": "^3.5.12"
+    "vue": "^3.5.18"
   },
   "peerDependencies": {
-    "vue": "^3.5.12"
+    "vue": "^3.5.18"
   },
   "engines": {
     "node": ">=20.0.0"
