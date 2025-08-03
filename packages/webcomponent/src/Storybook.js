@@ -70,7 +70,7 @@ class Storybook extends MiElement {
     split(['#split-0', '#split-1'], {
       sizes: [xperc, 100 - xperc],
       minSize: 0,
-      gutterSize: 5,
+      gutterSize: 4,
       onDragEnd: (sizes) => {
         const [xperc] = sizes
         localStorage.setItem(STORE_ITEM, xperc)
