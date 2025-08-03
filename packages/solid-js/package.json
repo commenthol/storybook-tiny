@@ -1,6 +1,6 @@
 {
   "name": "@storybook-tiny/solid-js",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "A tiny storybook for solid-js",
   "keywords": [
     "storybook",
@@ -42,16 +42,16 @@
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
-    "@typescript-eslint/utils": "^8.13.0",
+    "@typescript-eslint/utils": "^8.38.0",
     "eslint": "catalog:",
-    "eslint-plugin-solid": "^0.14.3",
+    "eslint-plugin-solid": "^0.14.5",
     "globals": "catalog:",
-    "solid-js": "^1.9.3",
+    "solid-js": "^1.9.7",
     "vite": "catalog:",
-    "vite-plugin-solid": "^2.10.2"
+    "vite-plugin-solid": "^2.11.8"
   },
   "peerDependencies": {
-    "solid-js": "^1.9.3"
+    "solid-js": "^1.9.7"
   },
   "engines": {
     "node": ">=20.0.0"
