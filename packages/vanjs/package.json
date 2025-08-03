@@ -1,6 +1,6 @@
 {
   "name": "@storybook-tiny/vanjs",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A tiny storybook for vanjs",
   "keywords": [
     "storybook",
@@ -44,11 +44,11 @@
     "@eslint/js": "catalog:",
     "eslint": "catalog:",
     "globals": "catalog:",
-    "vanjs-core": "^1.5.2",
+    "vanjs-core": "^1.5.5",
     "vite": "catalog:"
   },
   "peerDependencies": {
-    "vanjs-core": "^1.5.2"
+    "vanjs-core": "^1.5.5"
   },
   "engines": {
     "node": ">=20.0.0"
