@@ -42,15 +42,15 @@
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
-    "@preact/preset-vite": "^2.9.1",
+    "@preact/preset-vite": "^2.10.2",
     "eslint": "catalog:",
-    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react": "^7.37.5",
     "globals": "catalog:",
-    "preact": "^10.24.3",
+    "preact": "^10.27.0",
     "vite": "catalog:"
   },
   "peerDependencies": {
-    "preact": "^10.24.3"
+    "preact": "^10.27.0"
   },
   "engines": {
     "node": ">=20.0.0"
