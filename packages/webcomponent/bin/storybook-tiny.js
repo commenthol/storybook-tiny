@@ -8,7 +8,7 @@ const config = {
   devDependencies: [
     '@storybook-tiny/webcomponent',
     'mi-element',
-    'vite@^5',
+    'vite',
     'split.js@^1'
   ],
   files: ['stories/*', 'vite.config.js'],

@@ -1,6 +1,6 @@
 import styles from './Storybook.module.css'
 import split from 'split.js'
-import { MiElement, define, refsBySelector, esc, refsById } from 'mi-element'
+import { MiElement, define, refsBySelector, esc as html, refsById } from 'mi-element'
 
 const getLocationHash = () => decodeURIComponent(location.hash.substring(1))
 
@@ -8,17 +8,17 @@ const STORE_ITEM = 'tiny-storybook-x'
 
 const getXperc = (px = 130) => (px * 100) / window.innerWidth
 
-const defaultStory = `
-<p class="${styles.storybookSectionP}">
-  The tiny storybook for
-  <a
-    href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components"
-    target="_blanc"
-    rel="norel noreferrer"
-  >
-    webcomponents
-  </a>
-</p>
+const defaultStory = html`
+  <p class="${styles.storybookSectionP}">
+    The tiny storybook for
+    <a
+      href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components"
+      target="_blanc"
+      rel="norel noreferrer"
+    >
+      Web Components
+    </a>
+  </p>
 `
 
 class Storybook extends MiElement {
@@ -127,11 +127,11 @@ class Storybook extends MiElement {
     // try rendering the story
     refs.story.innerHTML = ''
     try {
-      switch (typeof renderStory) {
-        case 'string':
+      switch (toString.call(renderStory).slice(8, -1)) {
+        case 'String':
           refs.story.innerHTML = renderStory
           break
-        case 'function':
+        case 'Function':
           refs.story.appendChild(renderStory())
           break
         default:
@@ -169,10 +169,10 @@ class Story extends MiElement {
 
     const { title } = this.story
 
-    this.renderRoot.innerHTML = esc`
-    <div>
-      <a href="#${title}">${title}</a>
-    </div>
+    this.renderRoot.innerHTML = html`
+      <div>
+        <a href="#${title}">${title}</a>
+      </div>
     `
     this.refs = { a: this.querySelector('a') }
     this.refs.a.className = this.active ? styles.active : ''
