@@ -15,7 +15,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "shelljs": "^0.8.5"
+    "shelljs": "^0.10.0"
   },
   "devDependencies": {
     "@eslint/js": "catalog:",

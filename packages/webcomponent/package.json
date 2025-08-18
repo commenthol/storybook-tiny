@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@storybook-tiny/setup": "workspace:*",
-    "mi-element": "^0.4.1",
+    "mi-element": "^0.6.0",
     "split.js": "^1.6.5"
   },
   "devDependencies": {

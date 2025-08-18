@@ -42,16 +42,16 @@
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
-    "@typescript-eslint/utils": "^8.38.0",
+    "@typescript-eslint/utils": "^8.39.1",
     "eslint": "catalog:",
     "eslint-plugin-solid": "^0.14.5",
     "globals": "catalog:",
-    "solid-js": "^1.9.7",
+    "solid-js": "^1.9.9",
     "vite": "catalog:",
     "vite-plugin-solid": "^2.11.8"
   },
   "peerDependencies": {
-    "solid-js": "^1.9.7"
+    "solid-js": "^1.9.9"
   },
   "engines": {
     "node": ">=20.0.0"

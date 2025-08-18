@@ -42,15 +42,15 @@
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
-    "@sveltejs/vite-plugin-svelte": "^6.1.0",
+    "@sveltejs/vite-plugin-svelte": "^6.1.2",
     "eslint": "catalog:",
     "eslint-plugin-svelte": "^3.11.0",
     "globals": "catalog:",
-    "svelte": "^5.37.3",
+    "svelte": "^5.38.1",
     "vite": "catalog:"
   },
   "peerDependencies": {
-    "svelte": "^5.37.3"
+    "svelte": "^5.38.1"
   },
   "engines": {
     "node": ">=20.0.0"

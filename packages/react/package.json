@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
-    "@vitejs/plugin-react": "^4.7.0",
+    "@vitejs/plugin-react": "^5.0.0",
     "eslint": "catalog:",
     "eslint-plugin-react": "^7.37.5",
     "globals": "catalog:",
