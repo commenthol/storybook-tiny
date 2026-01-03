@@ -1,6 +1,6 @@
 {
   "name": "@storybook-tiny/webcomponent",
-  "version": "1.1.5",
+  "version": "1.2.0-0",
   "description": "A tiny storybook for web-components",
   "keywords": [
     "storybook",
@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@storybook-tiny/setup": "workspace:*",
-    "mi-element": "^0.6.0",
+    "mi-element": "^0.7.0",
     "split.js": "^1.6.5"
   },
   "devDependencies": {

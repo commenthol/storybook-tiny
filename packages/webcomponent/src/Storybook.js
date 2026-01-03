@@ -1,6 +1,6 @@
 import styles from './Storybook.module.css'
 import split from 'split.js'
-import { MiElement, define, refsBySelector, esc as html, refsById } from 'mi-element'
+import { MiElement, define, html } from 'mi-element'
 
 const getLocationHash = () => decodeURIComponent(location.hash.substring(1))
 
@@ -24,18 +24,18 @@ const defaultStory = html`
 class Storybook extends MiElement {
   state = {}
 
-  static shadowRootOptions = null
+  static shadowRootInit = null
 
-  static get attributes() {
+  static get properties() {
     return {
-      header: 'Storybook Tiny',
-      href: '/stories/index.html',
-      width: 130,
-      stories: []
+      header: { initial: 'Storybook Tiny' },
+      href: { initial: '/stories/index.html' },
+      width: { initial: 130, type: Number },
+      stories: { initial: [], attribute: false }
     }
   }
 
-  static template = `
+  static template = html`
   <style>   
   .${styles.storybook} > .gutter {
       background-color: #eee;
@@ -76,7 +76,7 @@ class Storybook extends MiElement {
         localStorage.setItem(STORE_ITEM, xperc)
       }
     })
-    this.refs = refsBySelector(this.renderRoot, {
+    this.refs = this.refsBySelector({
       aside: 'main > aside',
       h4: 'main > aside h4 a',
       nav: 'main > aside nav',
@@ -152,12 +152,12 @@ class Storybook extends MiElement {
 define('storybook-tiny', Storybook)
 
 class Story extends MiElement {
-  static shadowRootOptions = null
+  static shadowRootInit = null
 
-  static get attributes() {
+  static get properties() {
     return {
-      active: false,
-      story: ''
+      active: { initial: false, type: Boolean },
+      story: { initial: '' }
     }
   }
 
@@ -182,10 +182,13 @@ class Story extends MiElement {
 define('storybook-tiny-story', Story)
 
 class StoryError extends MiElement {
-  static shadowRootOptions = null
+  static shadowRootInit = null
 
-  static get attributes() {
-    return { message: '', stack: '' }
+  static get properties() {
+    return { 
+      message: { initial: '' }, 
+      stack: { initial: '' } 
+    }
   }
 
   static template = `
@@ -198,7 +201,10 @@ class StoryError extends MiElement {
   `
 
   render() {
-    this.refs = refsById(this.renderRoot)
+    this.refs = this.refsBySelector({
+      message: '#message',
+      stack: '#stack'
+    })
   }
 
   update() {

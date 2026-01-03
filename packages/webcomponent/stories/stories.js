@@ -3,7 +3,7 @@ import {
   storyButton,
   storyCounter,
   storyError
-} from './some.stories'
+} from './some.stories.js'
 
 const storybook = document.createElement('storybook-tiny')
 storybook.stories = [

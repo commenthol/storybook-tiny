@@ -7,7 +7,7 @@ const config = {
   rootDir: fileURLToPath(new URL('..', import.meta.url)),
   devDependencies: [
     '@storybook-tiny/webcomponent',
-    'mi-element',
+    'mi-element@0.7.x',
     'vite',
     'split.js@^1'
   ],
