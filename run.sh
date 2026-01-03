@@ -35,6 +35,17 @@ function _test {
 	done
 }
 
+# ./run.sh publish --dry-run
+# ./run.sh publish --otp 123456
+function publish {
+	local p=$(_packages | grep -v setup)
+	for d in $p; do
+		pushd "$CWD"/packages/$d
+		pnpm publish $@
+		popd > /dev/null
+	done
+}
+
 # ... ignition ...
 
 function help {
