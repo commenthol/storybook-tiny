@@ -1,6 +1,6 @@
 {
   "name": "@storybook-tiny/react",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A tiny storybook for react",
   "keywords": [
     "storybook",
@@ -42,17 +42,17 @@
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
-    "@vitejs/plugin-react": "^5.0.0",
+    "@vitejs/plugin-react": "^5.1.2",
     "eslint": "catalog:",
     "eslint-plugin-react": "^7.37.5",
     "globals": "catalog:",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "vite": "catalog:"
   },
   "peerDependencies": {
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "engines": {
     "node": ">=20.0.0"
