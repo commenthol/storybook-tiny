@@ -46,11 +46,11 @@
     "eslint": "catalog:",
     "eslint-plugin-react": "^7.37.5",
     "globals": "catalog:",
-    "preact": "^10.27.0",
+    "preact": "^10.28.1",
     "vite": "catalog:"
   },
   "peerDependencies": {
-    "preact": "^10.27.0"
+    "preact": "^10.28.1"
   },
   "engines": {
     "node": ">=20.0.0"
