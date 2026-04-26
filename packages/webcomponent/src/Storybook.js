@@ -102,7 +102,8 @@ class Storybook extends MiElement {
     const { refs } = this
     const locHash = getLocationHash()
 
-    if (this.state.title === locHash) {
+    if (this.state.title === locHash || locHash === '!') {
+      window.location.hash = this.state.title || ''
       return
     }
 

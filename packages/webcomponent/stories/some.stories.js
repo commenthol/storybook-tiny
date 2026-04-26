@@ -89,6 +89,10 @@ export const storyCounter = {
   title: 'x-counter',
   component: () => document.createElement('x-counter')
 }
+export const storyAhref = {
+  title: 'a href="#!"',
+  component: '<a href="#!">Link to #!</a>'
+}
 export const storyError = {
   title: 'Hello 🌍 Error',
   component: () => {
