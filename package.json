@@ -1,6 +1,6 @@
 {
   "name": "storybook-tiny-workspace",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "private": true,
   "description": "Monorepo for tiny storybooks",
   "homepage": "https://github.com/commenthol/storybook-tiny#readme",
