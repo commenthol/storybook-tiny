@@ -48,7 +48,11 @@ export default function Storybook(props) {
   // define hash router
   const active = van.state(getLocationHash())
   const handleHashchange = () => {
-    active.val = getLocationHash()
+    const hash = getLocationHash()
+    if (hash === '!') {
+      window.location.hash = active.val
+    }
+    active.val = hash
   }
   // handles hash change events on windows to get removed if storybook component
   // is disconnected from DOM

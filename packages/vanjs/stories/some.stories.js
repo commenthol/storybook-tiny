@@ -1,5 +1,5 @@
 import van from 'vanjs-core'
-const { button, div } = van.tags
+const { button, div, a } = van.tags
 
 const Button = () => button({ onclick: () => alert('Hi') }, 'Click me')
 
@@ -21,4 +21,10 @@ export const storyButton = {
 export const storyCounter = {
   title: Counter.name,
   component: Counter
+}
+
+export const storyAhrefNone = {
+  title: 'a href="#!"',
+  component: () =>
+    a({ href: '#!' }, 'Link to #!')
 }

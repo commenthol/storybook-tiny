@@ -1,6 +1,6 @@
 import van from 'vanjs-core'
 import Storybook from '../src/Storybook'
-import { storyButton, storyCounter } from './some.stories'
+import { storyButton, storyCounter, storyAhrefNone } from './some.stories'
 
 const { small } = van.tags
 
@@ -8,6 +8,6 @@ const { small } = van.tags
 van.add(
   document.getElementById('app'),
   Storybook({
-    stories: [small('Components'), storyButton, storyCounter]
+    stories: [small('Components'), storyButton, storyCounter, storyAhrefNone]
   })
 )
