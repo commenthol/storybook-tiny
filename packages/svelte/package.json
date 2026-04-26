@@ -1,6 +1,6 @@
 {
   "name": "@storybook-tiny/svelte",
-  "version": "2.0.3",
+  "version": "2.0.4-0",
   "description": "A tiny storybook for svelte 5",
   "keywords": [
     "storybook",
@@ -42,15 +42,15 @@
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
-    "@sveltejs/vite-plugin-svelte": "^6.2.1",
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
     "eslint": "catalog:",
-    "eslint-plugin-svelte": "^3.13.1",
+    "eslint-plugin-svelte": "^3.17.1",
     "globals": "catalog:",
-    "svelte": "^5.46.1",
+    "svelte": "^5.55.5",
     "vite": "catalog:"
   },
   "peerDependencies": {
-    "svelte": "^5.46.1"
+    "svelte": "^5.55.5"
   },
   "engines": {
     "node": ">=20.0.0"

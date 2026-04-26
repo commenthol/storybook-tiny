@@ -1,8 +1,6 @@
 <svelte:options runes="{true}" />
 
 <script>
-  import { run } from 'svelte/legacy';
-
   import styles from './Storybook.module.css'
   import { onMount } from 'svelte'
   import Story from './Story.svelte'
@@ -37,7 +35,12 @@
   onMount(() => {
     // define hash router
     const handleHashchange = () => {
-      locHash = getLocationHash()
+      const hash = getLocationHash()
+      if (hash === '!') {
+        window.location.hash = locHash
+        return
+      }
+      locHash = hash
     }
     window.addEventListener('hashchange', handleHashchange)
     return () => {
