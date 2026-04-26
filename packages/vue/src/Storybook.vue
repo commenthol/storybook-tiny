@@ -33,7 +33,12 @@ const stories = props.stories
 
 const locHash = ref(getLocHash())
 window.addEventListener('hashchange', () => {
-  locHash.value = getLocHash()
+  const hash = getLocHash()
+  if (hash === '!') { 
+    window.location.hash = locHash.value
+    return 
+  }
+  locHash.value = hash
 })
 
 let component = undefined

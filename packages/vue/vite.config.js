@@ -5,11 +5,6 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   build: {
-    lib: {
-      entry: './src/index.js',
-      name: 'Storybook',
-      fileName: 'storybook'
-    },
     rollupOptions: {
       external: ['vue'],
       output: {

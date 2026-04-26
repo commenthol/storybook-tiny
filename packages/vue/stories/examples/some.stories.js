@@ -2,6 +2,7 @@
 
 import Counter from './Counter.vue'
 import Broken from './Broken.vue'
+import AhrefNone from './AhrefNone.vue'
 
 const Button = {
   setup() {
@@ -20,6 +21,12 @@ export const storyCounter = {
   component: Counter
 }
 
+export const storyAhrefNone = {
+  title: 'a href="#!"',
+  component: AhrefNone
+}
+
 export const storyBroken = {
   component: Broken
 }
+
