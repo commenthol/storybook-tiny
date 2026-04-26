@@ -1,6 +1,6 @@
 import globals from 'globals'
 import pluginJs from '@eslint/js'
-import pluginSolid from 'eslint-plugin-solid/configs/recommended.js'
+import pluginSolid from 'eslint-plugin-solid/configs/recommended'
 
 export default [
   { files: ['**/*.{js,mjs,cjs,jsx}'] },

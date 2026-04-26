@@ -21,3 +21,10 @@ export const storyWorks = {
   title: 'Test',
   component: Works
 }
+
+export const storyAhrefNone = {
+  title: 'a href="#!"',
+  component: () => (
+    <a href="#!">Link to #!</a>
+  )
+}

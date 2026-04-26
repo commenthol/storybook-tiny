@@ -27,7 +27,14 @@ export default function Storybook(props) {
   const [active, setActive] = createSignal(getLocationHash())
   
   // define hash router
-  const handleHashchange = () => setActive(getLocationHash())
+  const handleHashchange = () => {
+    const hash = getLocationHash() 
+    if (hash === '!') {
+      window.location.hash = active()
+      return
+    }
+    setActive(hash)
+  }
   window.addEventListener('hashchange', handleHashchange)
   onCleanup(() => {
     window.removeEventListener('hashchange', handleHashchange)
