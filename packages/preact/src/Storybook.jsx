@@ -34,7 +34,12 @@ export default function Storybook(props) {
   // define hash router
   useEffect(() => {
     const handleHashchange = () => {
-      setActive(getLocationHash())
+      const hash = getLocationHash()
+      if (hash === '!') {
+        window.location.hash = active
+        return
+      }
+      setActive(hash)
       resetError()
     }
 

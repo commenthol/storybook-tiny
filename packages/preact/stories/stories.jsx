@@ -1,6 +1,6 @@
 import { render } from 'preact'
 import Storybook from '../src/Storybook'
-import { storyButton, storyError } from './some.stories'
+import { storyButton, storyAhrefNone, storyError } from './some.stories'
 
 // define stories in storybook
 render(
@@ -8,6 +8,7 @@ render(
     stories={[
       <small key="1">Components</small>,
       storyButton,
+      storyAhrefNone,
       storyError
     ]}
   />,
