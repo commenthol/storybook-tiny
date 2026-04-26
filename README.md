@@ -13,7 +13,7 @@ Nothing fancy.
 Current supported (no-) frameworks:
 
 - [preact@10](https://github.com/commenthol/storybook-tiny/tree/main/packages/preact#readme)
-- [react@18](https://github.com/commenthol/storybook-tiny/tree/main/packages/react#readme)
+- [react@19](https://github.com/commenthol/storybook-tiny/tree/main/packages/react#readme)
 - [solid-js@1](https://github.com/commenthol/storybook-tiny/tree/main/packages/solid-js#readme)
 - [svelte@4](https://github.com/commenthol/storybook-tiny/tree/svelte-4/packages/svelte#readme)
 - [svelte@5](https://github.com/commenthol/storybook-tiny/tree/main/packages/svelte#readme)

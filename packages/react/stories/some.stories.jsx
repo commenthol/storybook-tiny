@@ -28,6 +28,13 @@ export const storyButton = {
   )
 }
 
+export const storyAhrefNone = {
+  title: 'a href="#!"',
+  component: () => (
+    <a href="#!">Link to #!</a>
+  )
+}
+
 export const storyError = {
   title: 'Error',
   component: Throws

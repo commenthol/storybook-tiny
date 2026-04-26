@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Storybook from '../src/Storybook'
-import { storyButton, storyError, storyCounter } from './some.stories'
+import { storyButton, storyError, storyAhrefNone, storyCounter } from './some.stories'
 
 ReactDOM.createRoot(document.getElementById('app')).render(
   <React.StrictMode>
@@ -9,8 +9,9 @@ ReactDOM.createRoot(document.getElementById('app')).render(
       stories={[
         <small key="1">Components</small>,
         storyButton,
+        storyAhrefNone,
+        storyCounter,
         storyError,
-        storyCounter
       ]}
     />
   </React.StrictMode>
