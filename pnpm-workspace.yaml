@@ -1,5 +1,7 @@
 packages:
   - packages/*
+allowBuilds:
+  esbuild: true
 catalog:
   '@eslint/js': ^9.39.4
   eslint: ^9.39.4

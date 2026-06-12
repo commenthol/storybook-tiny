@@ -4,7 +4,7 @@ import { MiElement, define, html } from 'mi-element'
 
 const getLocationHash = () => decodeURIComponent(location.hash.substring(1))
 
-const STORE_ITEM = 'tiny-storybook-x'
+const STORAGE_KEY_X = 'storybook-tiny:x'
 
 const getXperc = (px = 130) => (px * 100) / window.innerWidth
 
@@ -14,7 +14,7 @@ const defaultStory = html`
     <a
       href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components"
       target="_blanc"
-      rel="norel noreferrer"
+      rel="norel noreferrer noopener"
     >
       Web Components
     </a>
@@ -36,31 +36,31 @@ class Storybook extends MiElement {
   }
 
   static template = html`
-  <style>   
-  .${styles.storybook} > .gutter {
-      background-color: #eee;
-      background-repeat: no-repeat;
-      background-position: 50%;
-  }
-  .${styles.storybook} > .gutter.gutter-horizontal {
-      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
-      cursor: col-resize;
-  }
-  </style>
-  <main class="${styles.storybook}">
-    <aside id="split-0">
-      <h4><a></a></h4>
-      <nav></nav>
-    </aside>
-    <section id="split-1" class="stories">
-    </section>
-  </main>
+    <style>
+      .${styles.storybook} > .gutter {
+        background-color: #eee;
+        background-repeat: no-repeat;
+        background-position: 50%;
+      }
+      .${styles.storybook} > .gutter.gutter-horizontal {
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+        cursor: col-resize;
+      }
+    </style>
+    <main class="${styles.storybook}">
+      <aside id="split-0">
+        <h4><a></a></h4>
+        <storybook-tiny-theme-toggle></storybook-tiny-theme-toggle>
+        <nav></nav>
+      </aside>
+      <section id="split-1" class="stories"></section>
+    </main>
   `
 
   render() {
     let xperc = getXperc()
     try {
-      xperc = JSON.parse(localStorage.getItem(STORE_ITEM)) || xperc
+      xperc = JSON.parse(localStorage.getItem(STORAGE_KEY_X)) || xperc
       if (isNaN(xperc)) {
         xperc = getXperc()
       }
@@ -73,7 +73,7 @@ class Storybook extends MiElement {
       gutterSize: 4,
       onDragEnd: (sizes) => {
         const [xperc] = sizes
-        localStorage.setItem(STORE_ITEM, xperc)
+        localStorage.setItem(STORAGE_KEY_X, xperc)
       }
     })
     this.refs = this.refsBySelector({
@@ -186,9 +186,9 @@ class StoryError extends MiElement {
   static shadowRootInit = null
 
   static get properties() {
-    return { 
-      message: { initial: '' }, 
-      stack: { initial: '' } 
+    return {
+      message: { initial: '' },
+      stack: { initial: '' }
     }
   }
 
@@ -215,3 +215,90 @@ class StoryError extends MiElement {
 }
 
 define('storybook-tiny-error', StoryError)
+
+const STORAGE_KEY_THEME = 'storybook-tiny:theme'
+
+const themeToogleOrder = [
+  { name: 'system', icon: '🖥️' },
+  { name: 'light', icon: '🌞' },
+  { name: 'dark', icon: '🌙' }
+]
+
+class ThemeToggle extends MiElement {
+  _icons = themeToogleOrder.reduce((acc, { name, icon }) => {
+    acc[name] = icon
+    return acc
+  }, {})
+
+  static get properties() {
+    return {
+      theme: { attribute: false }
+    }
+  }
+
+  render() {
+    this.theme = this._getTheme()
+    this.renderRoot.innerHTML = html`
+      <style>
+        :host {
+          display: inline-block;
+          margin-left: auto;
+          padding: 0.5em;
+        }
+        button {
+          border: none;
+          border-radius: 50%;
+          width: 2em;
+          height: 2em;
+          font-size: 1.2em;
+          cursor: pointer;
+          border: 1px solid #eee;
+          background-color: transparent;
+        }
+        button.dark:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+        }
+        button.light:hover {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+      </style>
+      <button aria-label="Toggle theme"></button>
+    `
+    this._button = this.renderRoot.querySelector('button')
+    this._button.addEventListener('click', () => {
+      const currentIndex = themeToogleOrder.findIndex(({ name }) => name === this.theme)
+      const nextIndex = (currentIndex + 1) % themeToogleOrder.length
+      this.theme = themeToogleOrder[nextIndex].name
+      this.update()
+    })
+  }
+
+  update() {
+    this._button.textContent = this._icons[this.theme]
+    this._button.className = this._getSystemTheme()
+    this._updateTheme(this.theme)
+  }
+
+  _getTheme() {
+    const savedTheme = localStorage.getItem(STORAGE_KEY_THEME)
+    if (savedTheme) {
+      return savedTheme
+    }
+    return 'system'
+  }
+
+  _getSystemTheme() {
+    return this.theme === 'system' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : this.theme
+  }
+
+  _updateTheme(theme) {
+    localStorage.setItem(STORAGE_KEY_THEME, theme)
+    if (theme === 'system') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+  }
+}
+
+define('storybook-tiny-theme-toggle', ThemeToggle)
