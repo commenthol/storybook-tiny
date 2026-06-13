@@ -38,7 +38,8 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@storybook-tiny/setup": "workspace:*"
+    "@storybook-tiny/setup": "workspace:*",
+    "split.js": "^1.6.4"
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
