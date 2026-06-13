@@ -75,6 +75,7 @@ export default function Storybook(props) {
         <h4>
           <a href={href}>{header}</a>
         </h4>
+        <ThemeToggle />
         {stories.map((component, index) => (
           <Story
             key={index}
@@ -144,5 +145,103 @@ function StoryError(props) {
       <p> </p>
       <pre style={{ whiteSpace: 'pre-wrap' }}>{error.stack}</pre>
     </div>
+  )
+}
+
+const STORAGE_KEY_THEME = 'storybook-tiny:theme'
+
+const themeToogleOrder = [
+  { name: 'system', icon: '🖥️' },
+  { name: 'light', icon: '🌞' },
+  { name: 'dark', icon: '🌙' }
+]
+
+const icons = themeToogleOrder.reduce((acc, { name, icon }) => {
+  acc[name] = icon
+  return acc
+}, {})
+
+/**
+ * Get the current theme setting from localStorage
+ * @returns {string} 'system', 'light', or 'dark'
+ */
+function getTheme() {
+  const savedTheme = localStorage.getItem(STORAGE_KEY_THEME)
+  if (savedTheme) {
+    return savedTheme
+  }
+  return 'system'
+}
+
+/**
+ * Get the system theme preference
+ * @param {string} theme - the theme setting
+ * @returns {string} 'dark' or 'light'
+ */
+function getSystemTheme(theme) {
+  return theme === 'system'
+    ? window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light'
+    : theme
+}
+
+/**
+ * Update the theme on the document root and save to localStorage
+ * @param {string} theme - 'system', 'light', or 'dark'
+ */
+function updateTheme(theme) {
+  localStorage.setItem(STORAGE_KEY_THEME, theme)
+  if (theme === 'system') {
+    document.documentElement.removeAttribute('data-theme')
+  } else {
+    document.documentElement.setAttribute('data-theme', theme)
+  }
+}
+
+/**
+ * ThemeToggle component for preact
+ */
+function ThemeToggle() {
+  const [theme, setTheme] = useState(getTheme())
+
+  // Initialize theme on mount
+  useEffect(() => {
+    updateTheme(theme)
+  }, [])
+
+  const handleToggle = () => {
+    const currentIndex = themeToogleOrder.findIndex(({ name }) => name === theme)
+    const nextIndex = (currentIndex + 1) % themeToogleOrder.length
+    const nextTheme = themeToogleOrder[nextIndex].name
+    setTheme(nextTheme)
+    updateTheme(nextTheme)
+  }
+
+  const systemTheme = getSystemTheme(theme)
+  const buttonIcon = icons[theme]
+  const buttonClass = systemTheme === 'dark' ? 'dark' : 'light'
+
+  return (
+    <button
+      onClick={handleToggle}
+      aria-label="Toggle theme"
+      className={buttonClass}
+      style={{
+        border: 'none',
+        borderRadius: '50%',
+        width: '2em',
+        height: '2em',
+        fontSize: '1.2em',
+        cursor: 'pointer',
+        backgroundColor: 'transparent',
+        borderStyle: 'solid',
+        borderWidth: '1px',
+        borderColor: systemTheme === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
+        color: 'inherit'
+      }}
+    >
+      {buttonIcon}
+    </button>
   )
 }

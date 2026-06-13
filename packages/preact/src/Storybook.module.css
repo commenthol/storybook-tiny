@@ -1,15 +1,39 @@
+:root {
+  --storybook-background: white;
+  --storybook-foreground: black;
+  --storybook-a: blue;
+}
+:root[data-theme="dark"] {
+  --storybook-background: black;
+  --storybook-foreground: lightgray;
+  --storybook-a: lightblue;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --storybook-background: black;
+    --storybook-foreground: lightgray;
+    --storybook-a: lightblue;
+  }
+}
+
 .storybook {
-  font-family: Arial, Helvetica, sans-serif;
   display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
 }
 
 .storybook > aside {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  max-height: calc(100vh - 3em);
+  min-height: 100vh;
+  max-height: 100vh;
   flex-grow: 0;
   flex-shrink: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  flex-direction: row;
   flex-basis: 130px;
+  background-color: var(--storybook-background);
+  color: var(--storybook-foreground);
 }
 
 .storybook > aside > * {
@@ -19,7 +43,7 @@
 
 .storybook aside a,
 .storybook aside a:visited {
-  color: blue;
+  color: var(--storybook-a);
 }
 
 .storybook aside a.active {
@@ -34,7 +58,9 @@
 
 .storybook > aside > h4 {
   padding-top: 5px;
+  padding-bottom: 5px;
   margin-top: 0;
+  margin-bottom: 0;
 }
 
 .storybook > aside > h4 a,
