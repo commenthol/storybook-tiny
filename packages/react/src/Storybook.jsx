@@ -1,6 +1,7 @@
 import styles from './Storybook.module.css'
 import { useState, useEffect, isValidElement } from 'react'
 import { ErrorBoundary } from './ErrorBoundary'
+import split from 'split.js'
 
 /**
  * @typedef {object} Story
@@ -9,6 +10,10 @@ import { ErrorBoundary } from './ErrorBoundary'
  */
 
 const getLocationHash = () => decodeURIComponent(location.hash.substring(1))
+
+const STORAGE_KEY_X = 'storybook-tiny:x'
+
+const getXperc = (px = 130) => (px * 100) / window.innerWidth
 
 /**
  * Tiny Storybook for react
@@ -23,12 +28,40 @@ export default function Storybook(props) {
   const {
     header = 'Storybook Tiny',
     href = '/stories/index.html',
-    width = 130,
     stories = []
   } = props
 
   const [active, setActive] = useState(getLocationHash())
   const [error, resetError] = useState()
+
+  // Initialize split.js drawer resizing
+  useEffect(() => {
+    let xperc = getXperc()
+    try {
+      xperc = JSON.parse(localStorage.getItem(STORAGE_KEY_X)) || xperc
+      if (isNaN(xperc)) {
+        xperc = getXperc()
+      }
+    } catch (_err) {
+      // noop - fall back to default
+    }
+
+    const instance = split(['#split-0', '#split-1'], {
+      sizes: [xperc, 100 - xperc],
+      minSize: 0,
+      gutterSize: 4,
+      onDragEnd: (sizes) => {
+        const [xperc] = sizes
+        try {
+          localStorage.setItem(STORAGE_KEY_X, xperc)
+        } catch (_err) {
+          // noop - fail silently if localStorage unavailable
+        }
+      }
+    })
+
+    return () => instance.destroy()
+  }, [])
 
   // define hash router
   useEffect(() => {
@@ -62,7 +95,7 @@ export default function Storybook(props) {
 
   return (
     <main className={styles.storybook}>
-      <aside style={{ flexBasis: width }}>
+      <aside id="split-0">
         <h4>
           <a href={href}>{header}</a>
         </h4>
@@ -75,7 +108,7 @@ export default function Storybook(props) {
           />
         ))}
       </aside>
-      <section className="stories">
+      <section id="split-1" className="stories">
         {error ? (
           <StoryError error={error} resetError={() => resetError()} />
         ) : (
