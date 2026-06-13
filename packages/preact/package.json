@@ -1,6 +1,6 @@
 {
   "name": "@storybook-tiny/preact",
-  "version": "1.0.6",
+  "version": "1.3.0-0",
   "description": "A tiny storybook for preact",
   "keywords": [
     "storybook",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@storybook-tiny/setup": "workspace:*",
-    "split.js": "^1.6.4"
+    "split.js": "catalog:"
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
@@ -47,11 +47,11 @@
     "eslint": "catalog:",
     "eslint-plugin-react": "^7.37.5",
     "globals": "catalog:",
-    "preact": "^10.29.1",
+    "preact": "^10.29.2",
     "vite": "catalog:"
   },
   "peerDependencies": {
-    "preact": "^10.29.1"
+    "preact": "^10.29.2"
   },
   "engines": {
     "node": ">=20.0.0"
