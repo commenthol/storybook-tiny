@@ -8,6 +8,7 @@ const config = {
   devDependencies: [
     '@storybook-tiny/preact',
     '@preact/preset-vite',
+    'split.js@^1',
     'vite'
   ],
   files: ['stories/*', 'vite.config.js'],

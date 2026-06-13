@@ -7,8 +7,9 @@ const config = {
   rootDir: fileURLToPath(new URL('..', import.meta.url)),
   devDependencies: [
     '@storybook-tiny/react',
-    'react-use-error-boundary',
     '@vitejs/plugin-react',
+    'react-use-error-boundary',
+    'split.js@^1',
     'vite'
   ],
   files: ['stories/*', 'vite.config.js'],
