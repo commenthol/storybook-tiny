@@ -40,8 +40,8 @@
   },
   "dependencies": {
     "@storybook-tiny/setup": "workspace:*",
-    "mi-element": "^0.9.6",
-    "split.js": "^1.6.5"
+    "mi-element": "^0.9.8",
+    "split.js": "catalog:"
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
